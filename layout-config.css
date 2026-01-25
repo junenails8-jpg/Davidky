@@ -1,0 +1,61 @@
+/* ========================================
+   页面布局配置 - 布局大师自动生成
+   ======================================== */
+
+/* Logo 样式 */
+#logo {
+  position: absolute;
+  top: 47px;
+  left: 49%;
+  transform: translateX(-50%);
+  font-size: 86px;
+  font-weight: 800;
+  color: #FF5B5F;
+  text-align: center;
+}
+
+/* 分数显示 */
+.score-display {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(15px);
+  padding: 12px 20px;
+  border-radius: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+/* 礼物按钮 */
+.gift-btn {
+  position: absolute;
+  bottom: 87px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 79px;
+  height: 79px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 50%;
+}
+
+/* 语言切换 */
+.language-switcher {
+  position: absolute;
+  bottom: 227px;
+  left: 51%;
+  transform: translateX(-50%);
+}
+
+.lang-btn {
+  min-width: 63px;
+  height: 45px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-radius: 12px;
+}
+
+/* 背景渐变 */
+body {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}

@@ -1,0 +1,101 @@
+========================================
+NEW PROUD NAILS - 音频文件清单
+========================================
+
+总共需要 25 个音频文件（.mp3格式）
+
+========================================
+音效文件（10个）- 放在 sounds/ 文件夹
+========================================
+
+sounds/bgm.mp3                    背景音乐
+sounds/page-load.mp3              页面载入音效
+sounds/sprite-appear.mp3          精灵出现音效
+sounds/sprite-escape.mp3          精灵逃跑音效
+sounds/sprite-hit.mp3             精灵被击中音效
+sounds/ball-drop.mp3              玻璃球落地音效
+sounds/ball-eaten.mp3             球被吃掉音效
+sounds/panel-slide.mp3            面板滑出音效
+sounds/promo-appear.mp3           优惠卡出现音效
+sounds/logo-click.mp3             Logo点击音效
+
+========================================
+中文语音（5个）- 放在 sounds/voice/zh/ 文件夹
+========================================
+
+sounds/voice/zh/hello.mp3         "哈喽"
+sounds/voice/zh/book.mp3          "预约"
+sounds/voice/zh/gift.mp3          "礼物"
+sounds/voice/zh/services.mp3      "服务"
+sounds/voice/zh/member.mp3        "会员"
+
+========================================
+英文语音（5个）- 放在 sounds/voice/en/ 文件夹
+========================================
+
+sounds/voice/en/hello.mp3         "Hello"
+sounds/voice/en/book.mp3          "Book"
+sounds/voice/en/gift.mp3          "Gift"
+sounds/voice/en/services.mp3      "Services"
+sounds/voice/en/member.mp3        "Member"
+
+========================================
+西班牙语语音（5个）- 放在 sounds/voice/es/ 文件夹
+========================================
+
+sounds/voice/es/hola.mp3          "¡Hola!"
+sounds/voice/es/reservar.mp3      "Reservar"
+sounds/voice/es/regalo.mp3        "Regalo"
+sounds/voice/es/servicios.mp3     "Servicios"
+sounds/voice/es/miembro.mp3       "Miembro"
+
+========================================
+文件夹结构
+========================================
+
+项目文件夹/
+├── NEW-PROUD-NAILS-不动版.html
+├── config-sound.js
+├── glass-bg.jpg
+├── marble-text.jpg
+└── sounds/
+    ├── bgm.mp3
+    ├── page-load.mp3
+    ├── sprite-appear.mp3
+    ├── sprite-escape.mp3
+    ├── sprite-hit.mp3
+    ├── ball-drop.mp3
+    ├── ball-eaten.mp3
+    ├── panel-slide.mp3
+    ├── promo-appear.mp3
+    ├── logo-click.mp3
+    └── voice/
+        ├── zh/
+        │   ├── hello.mp3
+        │   ├── book.mp3
+        │   ├── gift.mp3
+        │   ├── services.mp3
+        │   └── member.mp3
+        ├── en/
+        │   ├── hello.mp3
+        │   ├── book.mp3
+        │   ├── gift.mp3
+        │   ├── services.mp3
+        │   └── member.mp3
+        └── es/
+            ├── hola.mp3
+            ├── reservar.mp3
+            ├── regalo.mp3
+            ├── servicios.mp3
+            └── miembro.mp3
+
+========================================
+说明
+========================================
+
+1. 所有音频文件必须是 .mp3 格式
+2. 文件名必须完全一致（区分大小写）
+3. 文件夹路径必须正确
+4. 如果没有某个音频文件，该功能不会播放声音（不会报错）
+
+========================================
