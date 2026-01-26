@@ -4,20 +4,9 @@
 <meta charset="UTF-8">
 <title>NEW PROUD NAILS</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- PWA支持 -->
 <meta name="description" content="NEW PROUD NAILS - 专业美甲服务，体验优雅与美丽">
 <meta name="theme-color" content="#667eea">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="NEW PROUD NAILS">
-<link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="icon-512.png">
-
-<!-- 引入音效配置 -->
 <script src="config-sound.js"></script>
-
 <style>
 * {
   user-select: none;
@@ -36,96 +25,46 @@ html, body {
   background-size: 110% 110%, cover;
   background-position: center center, center center;
   background-attachment: scroll, fixed;
-  background-repeat: no-repeat, no-repeat;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   transition: background-position 0.1s ease-out;
-  will-change: background-position;
 }
 
-/* 节日特效画布 */
-#holidayCanvas {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* 节日问候 */
-.holiday-greeting {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.9);
-  padding: 10px 25px;
-  border-radius: 20px;
-  font-size: 16px;
-  font-weight: 700;
-  color: #333;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  z-index: 999;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.holiday-greeting.show {
-  opacity: 1;
-}
-
-/* 语言切换 */
 .language-switcher {
   position: absolute;
-  bottom: calc(14% + 200px); /* 修改：增加距离避免与功能键重叠 */
+  bottom: calc(14% + 200px);
   width: 100%;
   display: flex;
   justify-content: center;
   gap: 15px;
   z-index: 998;
   padding: 0 20px;
-  transition: transform 0.1s ease-out;
-  will-change: transform;
-  transform: translateZ(0);
-  backface-visibility: hidden;
 }
 
 .lang-btn {
   min-width: 90px;
   height: 45px;
   background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px);
   border: 2px solid rgba(255, 255, 255, 0.45);
   border-radius: 12px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   color: rgba(255, 255, 255, 0.95);
   font-size: 15px;
   font-weight: 700;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .lang-btn:hover {
   background: rgba(255, 255, 255, 0.35);
   transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 .lang-btn.active {
   background: rgba(255, 255, 255, 0.5);
   border-color: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 2px 8px rgba(255, 255, 255, 0.5);
   transform: translateY(-2px);
-}
-
-.lang-btn:active {
-  transform: translateY(-1px);
 }
 
 #logo {
@@ -140,26 +79,37 @@ html, body {
   letter-spacing: 3px;
   background: #FF5B5F;
   background-size: cover;
-  background-position: center;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  color: transparent;
   text-shadow: 
     2px 2px 0px rgba(255, 255, 255, 0.4),
-    3px 3px 0px rgba(255, 255, 255, 0.3),
-    4px 4px 0px rgba(255, 255, 255, 0.2),
-    5px 5px 8px rgba(0, 0, 0, 0.08);
+    3px 3px 0px rgba(255, 255, 255, 0.3);
   z-index: 2;
   cursor: pointer;
   filter: brightness(1.1) contrast(1.1);
-  transition: transform 0.1s ease-out;
-  will-change: transform;
-  transform: translateX(-50%) translateZ(0);
-  backface-visibility: hidden;
 }
 
-/* 分数显示 */
+/* U字母作为收集容器 - 无金光 */
+.letter-u {
+  position: relative;
+  display: inline-block;
+  color: #FFD700;
+  -webkit-text-fill-color: #FFD700;
+  font-weight: 900;
+  transition: all 0.5s ease;
+}
+
+.letter-u.tilting {
+  animation: tiltU 1s ease-out forwards;
+}
+
+@keyframes tiltU {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(45deg) translateY(20px); }
+  100% { transform: rotate(90deg) translateY(40px) translateX(100px); }
+}
+
 .score-display {
   position: fixed;
   top: 30px;
@@ -201,10 +151,6 @@ html, body {
   transform: scale(1.1);
 }
 
-.music-toggle:active {
-  transform: scale(0.95);
-}
-
 .music-toggle.muted {
   background: rgba(255, 59, 63, 0.3);
   border-color: rgba(255, 59, 63, 0.5);
@@ -232,36 +178,44 @@ html, body {
   margin-top: 2px;
 }
 
-/* 预约面板时钟 */
-.panel-clock {
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 15px;
-  padding: 20px;
-  margin-bottom: 25px;
-  text-align: center;
+/* 预约面板标题栏时钟 - 加大字体 */
+.panel-title-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: 1;
+  margin-right: 20px;
 }
 
-.panel-clock-label {
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
-  font-weight: 600;
-  margin-bottom: 10px;
+.panel-title-text {
+  font-size: 38px;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.98);
+  text-shadow: 0 2px 0 rgba(0, 0, 0, 0.25), 0 5px 12px rgba(0, 0, 0, 0.4);
+  letter-spacing: 2px;
 }
 
-.panel-clock-time {
-  font-size: 36px;
-  font-weight: 800;
-  color: #fff;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+.panel-title-clock {
+  font-size: 18px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.95);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
   font-family: 'Courier New', monospace;
-  letter-spacing: 3px;
-  margin-bottom: 8px;
+  letter-spacing: 1px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
-.panel-clock-date {
+.panel-clock-time-inline {
+  font-size: 24px;
+  margin-bottom: 4px;
+  font-weight: 800;
+}
+
+.panel-clock-date-inline {
   font-size: 16px;
-  color: rgba(255, 255, 255, 0.9);
+  opacity: 0.95;
   font-weight: 600;
 }
 
@@ -416,10 +370,6 @@ html, body {
   z-index: 2;
   flex-wrap: wrap;
   padding: 0 20px;
-  transition: transform 0.1s ease-out;
-  will-change: transform;
-  transform: translateX(-50%) translateZ(0);
-  backface-visibility: hidden;
 }
 
 .glass-btn {
@@ -448,132 +398,15 @@ html, body {
   transform: translateY(2px) scale(0.97);
 }
 
-.monster-mouth {
-  position: absolute;
-  width: 0;
-  height: 0;
-  border-left: 25px solid transparent;
-  border-right: 25px solid transparent;
-  border-top: 20px solid rgba(139, 0, 0, 0.8);
-  bottom: 10px;
-  left: 50%;
-  transform: translateX(-50%);
-  transition: all 0.3s ease;
-  opacity: 0;
+.glass-btn.satisfied {
+  animation: giftPulse 0.5s ease-in-out 3;
 }
 
-.glass-btn.monster .monster-mouth { opacity: 1; }
-
-.glass-btn.hungry .monster-mouth {
-  animation: mouthOpen 0.3s ease forwards;
-}
-
-@keyframes mouthOpen {
-  0% { border-top-width: 20px; }
-  100% { border-top-width: 35px; }
-}
-
-.glass-btn.eating .monster-mouth {
-  animation: chew 0.4s ease 3;
-}
-
-@keyframes chew {
-  0%, 100% { border-top-width: 35px; }
-  50% { border-top-width: 15px; }
-}
-
-.monster-eyes {
-  position: absolute;
-  top: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 30px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.glass-btn.monster .monster-eyes { opacity: 1; }
-
-.monster-eye {
-  width: 12px;
-  height: 12px;
-  background: #fff;
-  border-radius: 50%;
-  position: relative;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
-}
-
-.monster-pupil {
-  width: 6px;
-  height: 6px;
-  background: #000;
-  border-radius: 50%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: all 0.2s ease;
-}
-
-.glass-btn.hungry .monster-eye {
-  animation: eyeExcited 0.3s ease infinite;
-}
-
-@keyframes eyeExcited {
+@keyframes giftPulse {
   0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.3); }
+  50% { transform: scale(1.2); }
 }
 
-.glass-btn.eating .monster-eye {
-  animation: eyeClose 0.4s ease 3;
-}
-
-@keyframes eyeClose {
-  0%, 100% { height: 12px; }
-  50% { height: 2px; }
-}
-
-.glass-btn.satisfied .monster-eye {
-  height: 2px;
-}
-
-.monster-smile {
-  position: absolute;
-  width: 40px;
-  height: 20px;
-  border: 3px solid rgba(255, 255, 255, 0.9);
-  border-top: none;
-  border-radius: 0 0 40px 40px;
-  bottom: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.glass-btn.satisfied .monster-smile {
-  opacity: 1;
-}
-
-.glass-btn.gift-transform {
-  animation: giftTransform 1.5s ease forwards;
-}
-
-@keyframes giftTransform {
-  0% { transform: scale(1) rotate(0deg); }
-  30% { transform: scale(1.3) rotate(10deg); }
-  60% { transform: scale(0.8) rotate(-10deg); }
-  100% { transform: scale(20) rotate(360deg); opacity: 0; }
-}
-
-#ballCount {
-  font-size: 12px;
-  margin-left: 5px;
-  opacity: 0.9;
-}
-
-/* 升级：不同颜色的球 */
 .glass-ball {
   position: absolute;
   width: 40px;
@@ -592,7 +425,6 @@ html, body {
   transition: transform 0.3s ease;
 }
 
-/* 金球 */
 .glass-ball.gold {
   background: radial-gradient(circle at 30% 30%, #FFD700, #FFA500);
   box-shadow: 0 8px 24px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.4);
@@ -604,7 +436,6 @@ html, body {
   50% { box-shadow: 0 8px 24px rgba(255, 215, 0, 0.9), 0 0 40px rgba(255, 215, 0, 0.7); }
 }
 
-/* 银球 */
 .glass-ball.silver {
   background: radial-gradient(circle at 30% 30%, #E8E8E8, #C0C0C0);
   box-shadow: 0 8px 24px rgba(192, 192, 192, 0.6), 0 0 20px rgba(192, 192, 192, 0.4);
@@ -616,7 +447,6 @@ html, body {
   50% { box-shadow: 0 8px 24px rgba(192, 192, 192, 0.8), 0 0 30px rgba(192, 192, 192, 0.6); }
 }
 
-/* 普通球 */
 .glass-ball.normal {
   background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(200, 200, 255, 0.4));
 }
@@ -661,190 +491,6 @@ html, body {
   opacity: 0.9;
 }
 
-/* 抽奖轮盘 */
-.lottery-wheel-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.lottery-wheel-container.show {
-  opacity: 1;
-  visibility: visible;
-}
-
-.lottery-wheel-wrapper {
-  position: relative;
-  width: 350px;
-  height: 450px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.lottery-title {
-  font-size: 28px;
-  font-weight: 800;
-  color: #fff;
-  margin-bottom: 20px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-}
-
-.lottery-wheel {
-  position: relative;
-  width: 320px;
-  height: 320px;
-  border-radius: 50%;
-  border: 8px solid #FFD700;
-  box-shadow: 0 0 30px rgba(255, 215, 0, 0.6), inset 0 0 20px rgba(0, 0, 0, 0.3);
-  overflow: hidden;
-  transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-
-.wheel-pointer {
-  position: absolute;
-  top: -15px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-top: 30px solid #FF3B3F;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.4));
-  z-index: 10;
-}
-
-.wheel-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #FFD700, #FFA500);
-  border-radius: 50%;
-  border: 4px solid #fff;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  font-weight: 800;
-  color: #fff;
-}
-
-.wheel-slice {
-  position: absolute;
-  width: 50%;
-  height: 50%;
-  transform-origin: 100% 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: 20px;
-  font-size: 13px;
-  font-weight: 700;
-  color: #fff;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
-}
-
-.spin-button {
-  margin-top: 30px;
-  padding: 15px 40px;
-  background: linear-gradient(135deg, #FF3B3F, #FF6B6F);
-  border: none;
-  border-radius: 30px;
-  color: #fff;
-  font-size: 20px;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(255, 59, 63, 0.4);
-  transition: all 0.3s ease;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.spin-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(255, 59, 63, 0.5);
-}
-
-.spin-button:active {
-  transform: translateY(-1px);
-}
-
-.spin-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.lottery-result {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  background: rgba(255, 255, 255, 0.95);
-  padding: 30px 40px;
-  border-radius: 20px;
-  text-align: center;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  z-index: 15;
-  opacity: 0;
-  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.lottery-result.show {
-  transform: translate(-50%, -50%) scale(1);
-  opacity: 1;
-}
-
-.result-icon {
-  font-size: 60px;
-  margin-bottom: 15px;
-}
-
-.result-title {
-  font-size: 26px;
-  font-weight: 800;
-  color: #FF3B3F;
-  margin-bottom: 10px;
-}
-
-.result-desc {
-  font-size: 16px;
-  color: #666;
-  margin-bottom: 20px;
-}
-
-.result-close {
-  padding: 12px 30px;
-  background: #FF3B3F;
-  border: none;
-  border-radius: 20px;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 700;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.result-close:hover {
-  background: #E62B2F;
-  transform: translateY(-2px);
-}
-
 #fireworkCanvas {
   position: absolute;
   top: 0;
@@ -855,7 +501,6 @@ html, body {
   pointer-events: none;
 }
 
-/* 功能面板样式（保持不变） */
 .panel-overlay {
   position: fixed;
   top: 0;
@@ -884,41 +529,17 @@ html, body {
   height: 100%;
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(100px) saturate(300%) brightness(1.15) contrast(1.1);
-  -webkit-backdrop-filter: blur(100px) saturate(300%) brightness(1.15) contrast(1.1);
   border-right: 8px solid rgba(255, 255, 255, 0.7);
-  border-top: 2px solid rgba(255, 255, 255, 0.4);
-  border-bottom: 2px solid rgba(255, 255, 255, 0.4);
   box-shadow: 
     16px 0 120px rgba(0, 0, 0, 0.7),
-    12px 0 80px rgba(0, 0, 0, 0.5),
-    8px 0 50px rgba(0, 0, 0, 0.4),
-    4px 0 25px rgba(0, 0, 0, 0.3),
-    inset -4px 0 30px rgba(255, 255, 255, 0.15);
+    12px 0 80px rgba(0, 0, 0, 0.5);
   z-index: 999;
   transition: left 1.5s cubic-bezier(0.16, 0.84, 0.44, 1);
   overflow-y: auto;
-  overflow-x: hidden;
 }
 
 .function-detail-panel.show {
   left: 0;
-  animation: slideInHeavy 1.5s cubic-bezier(0.16, 0.84, 0.44, 1);
-}
-
-@keyframes slideInHeavy {
-  0% { left: -100%; opacity: 0; transform: translateX(-30px); }
-  65% { left: 1%; transform: translateX(0); }
-  85% { left: -0.3%; }
-  100% { left: 0; opacity: 1; transform: translateX(0); }
-}
-
-.function-detail-panel.closing {
-  animation: slideOutHeavy 1s cubic-bezier(0.7, 0, 0.84, 0);
-}
-
-@keyframes slideOutHeavy {
-  0% { left: 0; opacity: 1; transform: translateX(0); }
-  100% { left: -100%; opacity: 0; transform: translateX(-30px); }
 }
 
 .panel-header {
@@ -1040,15 +661,6 @@ html, body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 }
 
-.action-button:active {
-  transform: translateY(-2px);
-}
-
-/* ========================================
-   响应式适配 - 新增！
-   ======================================== */
-
-/* 小手机（iPhone SE, 小安卓手机） */
 @media (max-width: 400px) and (max-height: 700px) {
   #logo {
     top: 60px;
@@ -1086,240 +698,12 @@ html, body {
     font-size: 24px;
   }
 }
-
-/* 中等手机（iPhone 12/13/14标准版） */
-@media (min-width: 401px) and (max-width: 430px) and (max-height: 850px) {
-  #logo {
-    top: 80px;
-  }
-}
-
-/* 大手机（iPhone Pro Max, 大安卓手机） */
-@media (min-height: 850px) and (max-width: 500px) {
-  #logo {
-    top: 120px;
-    font-size: clamp(110px, 10vw, 140px);
-  }
-  
-  .glass-btn {
-    min-width: 150px;
-    height: 65px;
-    font-size: 17px;
-  }
-}
-
-/* 平板竖屏 */
-@media (min-width: 600px) and (max-width: 900px) {
-  #logo {
-    top: 100px;
-    font-size: 130px;
-  }
-  
-  .glass-btn {
-    min-width: 160px;
-    height: 70px;
-    font-size: 18px;
-  }
-  
-  .lang-btn {
-    min-width: 100px;
-    height: 50px;
-    font-size: 16px;
-  }
-}
-
-/* 平板横屏 */
-@media (min-width: 900px) {
-  #logo {
-    font-size: 150px;
-  }
-  
-  #buttons {
-    gap: 30px;
-  }
-  
-  .glass-btn {
-    min-width: 180px;
-    height: 75px;
-    font-size: 19px;
-  }
-}
-
-/* 超小屏幕（老手机）- 按钮竖排 */
-@media (max-width: 360px) {
-  #buttons {
-    flex-direction: column;
-    align-items: center;
-    bottom: 10%;
-  }
-  
-  .language-switcher {
-    bottom: calc(10% + 280px);
-  }
-}
-
-/* 横屏模式 */
-@media (orientation: landscape) and (max-height: 500px) {
-  #logo {
-    top: 30px;
-    font-size: clamp(60px, 8vw, 80px);
-  }
-  
-  #buttons {
-    bottom: 5%;
-  }
-  
-  .language-switcher {
-    bottom: calc(5% + 80px);
-  }
-  
-  .score-display {
-    top: 10px;
-    right: 10px;
-    padding: 8px 15px;
-  }
-}
-
-/* iPhone陀螺仪启动按钮 */
-.gyro-permission-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 10000;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.gyro-permission-overlay.show {
-  opacity: 1;
-  visibility: visible;
-}
-
-.gyro-permission-content {
-  text-align: center;
-  padding: 40px;
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(20px);
-  border-radius: 24px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  max-width: 90%;
-}
-
-.gyro-permission-title {
-  font-size: 28px;
-  font-weight: 800;
-  color: #fff;
-  margin-bottom: 20px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
-}
-
-.gyro-permission-text {
-  font-size: 16px;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: 30px;
-  line-height: 1.6;
-}
-
-.gyro-permission-button {
-  padding: 18px 50px;
-  background: linear-gradient(135deg, #FF3B3F, #FF6B6F);
-  border: none;
-  border-radius: 30px;
-  color: #fff;
-  font-size: 20px;
-  font-weight: 800;
-  cursor: pointer;
-  box-shadow: 0 8px 25px rgba(255, 59, 63, 0.4);
-  transition: all 0.3s ease;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-.gyro-permission-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 30px rgba(255, 59, 63, 0.5);
-}
-
-.gyro-permission-button:active {
-  transform: translateY(-1px);
-}
-
-/* 横屏提示 */
-.landscape-warning {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.95);
-  display: none;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 9999;
-}
-
-.landscape-warning.show {
-  display: flex;
-}
-
-.landscape-icon {
-  font-size: 80px;
-  margin-bottom: 20px;
-  animation: rotate-phone 2s ease-in-out infinite;
-}
-
-@keyframes rotate-phone {
-  0%, 100% { transform: rotate(0deg); }
-  50% { transform: rotate(90deg); }
-}
-
-.landscape-text {
-  font-size: 24px;
-  font-weight: 700;
-  color: #fff;
-  text-align: center;
-  padding: 0 30px;
-}
 </style>
 </head>
 <body>
 
-<!-- iPhone陀螺仪权限请求遮罩 -->
-<div class="gyro-permission-overlay" id="gyroPermission">
-  <div class="gyro-permission-content">
-    <div class="gyro-permission-title">🎮 启动体感效果</div>
-    <div class="gyro-permission-text">
-      倾斜手机可以控制背景和球的移动<br>
-      点击下方按钮启动体感功能
-    </div>
-    <button class="gyro-permission-button" id="enableGyroBtn">启动体感</button>
-  </div>
-</div>
-
-<!-- 横屏提示 -->
-<div class="landscape-warning" id="landscapeWarning">
-  <div class="landscape-icon">📱</div>
-  <div class="landscape-text">请竖屏使用获得最佳体验</div>
-</div>
-
-<!-- 节日特效画布 -->
-<canvas id="holidayCanvas"></canvas>
-
-<!-- 节日问候 -->
-<div class="holiday-greeting" id="holidayGreeting"></div>
-
-<!-- 遮罩层 -->
 <div class="panel-overlay" id="panelOverlay" onclick="closeFunctionPanel()"></div>
 
-<!-- 功能延展面板 -->
 <div class="function-detail-panel" id="functionPanel">
   <div class="panel-header">
     <div class="panel-title" id="panelTitle">预约</div>
@@ -1328,7 +712,6 @@ html, body {
   <div class="panel-content" id="panelContentArea"></div>
 </div>
 
-<!-- 分数显示 -->
 <div class="score-display">
   <button class="music-toggle" id="musicToggle" onclick="toggleMusic()" title="音乐开关">
     <span id="musicIcon">🔊</span>
@@ -1338,7 +721,7 @@ html, body {
   <div class="ball-count" id="ballCount">(0/20)</div>
 </div>
 
-<div id="logo" onclick="playLogoSound()">NEW PR<span class="letter-o" id="letterO">O</span>UD NAILS</div>
+<div id="logo" onclick="playLogoSound()">NEW PRO<span class="letter-u" id="letterU">U</span>D NAILS</div>
 
 <div class="light-dot">
   <div class="face">
@@ -1352,7 +735,6 @@ html, body {
 
 <div class="speech-bubble">哈喽！</div>
 
-<!-- 语言切换 -->
 <div class="language-switcher">
   <button class="lang-btn active" data-lang="zh" onclick="switchLanguage('zh')">中文</button>
   <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">English</button>
@@ -1361,10 +743,8 @@ html, body {
 
 <div id="buttons">
   <div class="glass-btn" onclick="clickButton('book')"><span id="btnBook">预约</span></div>
-  <div class="glass-btn gift-btn" id="giftBtn">
-    <span class="gift-text">
-      <span id="btnGiftFull">GIFT</span><span id="ballCount">(0/20)</span>
-    </span>
+  <div class="glass-btn" id="giftBtn">
+    <span><span id="btnGiftFull">GIFT</span><span id="ballCount2"></span></span>
   </div>
   <div class="glass-btn" onclick="clickButton('services')"><span id="btnServices">服务</span></div>
   <div class="glass-btn" onclick="clickButton('member')"><span id="btnMember">会员</span></div>
@@ -1375,40 +755,19 @@ html, body {
   <div class="promo-subtitle">您获得了专属优惠</div>
 </div>
 
-<!-- 抽奖轮盘 -->
-<div class="lottery-wheel-container" id="lotteryContainer">
-  <div class="lottery-wheel-wrapper">
-    <div class="lottery-title">🎊 Lucky Spin 🎊</div>
-    <div style="position: relative;">
-      <div class="wheel-pointer"></div>
-      <div class="lottery-wheel" id="lotteryWheel">
-        <div class="wheel-center">SPIN</div>
-      </div>
-    </div>
-    <button class="spin-button" id="spinButton" onclick="spinWheel()">SPIN NOW!</button>
-    
-    <div class="lottery-result" id="lotteryResult">
-      <div class="result-icon" id="resultIcon">🎉</div>
-      <div class="result-title" id="resultTitle">Congratulations!</div>
-      <div class="result-desc" id="resultDesc">You won 10% off!</div>
-      <button class="result-close" onclick="closeLottery()">Awesome!</button>
-    </div>
-  </div>
-</div>
-
 <canvas id="fireworkCanvas"></canvas>
 
 <script>
-// ========================================
-// 全局变量
-// ========================================
+// ========== 全局变量 ==========
 let currentScore = 0;
 let totalBalls = 0;
-const TARGET_SCORE = 20; // 达到20分可以抽奖
+const TARGET_SCORE = 20;
+let tiltX = 0;
+let tiltY = 0;
+let currentLanguage = 'zh';
+let ballsInU = [];
 
-// ========================================
-// 音效管理系统
-// ========================================
+// ========== 音效管理系统（完整版） ==========
 const AudioManager = {
   bgm: null,
   sounds: {},
@@ -1420,12 +779,14 @@ const AudioManager = {
       return;
     }
     
+    // 初始化背景音乐
     if (ASSETS.sounds && ASSETS.sounds.bgm) {
       this.bgm = new Audio(ASSETS.sounds.bgm);
       this.bgm.loop = true;
       this.bgm.volume = ASSETS.audioSettings.bgmVolume;
     }
     
+    // 初始化音效
     if (ASSETS.sounds) {
       Object.keys(ASSETS.sounds).forEach(key => {
         if (key !== 'bgm' && ASSETS.sounds[key]) {
@@ -1435,6 +796,7 @@ const AudioManager = {
       });
     }
     
+    // 加载当前语言的语音
     this.loadVoices(currentLanguage);
   },
   
@@ -1461,24 +823,21 @@ const AudioManager = {
   stopBGM: function() {
     if (this.bgm) {
       this.bgm.pause();
-      this.bgm.currentTime = 0;  // 重置到开始
+      this.bgm.currentTime = 0;
     }
   },
   
   stopAllAudio: function() {
-    // 停止背景音乐
     if (this.bgm) {
       this.bgm.pause();
       this.bgm.currentTime = 0;
     }
-    // 停止所有音效
     Object.values(this.sounds).forEach(sound => {
       if (sound) {
         sound.pause();
         sound.currentTime = 0;
       }
     });
-    // 停止所有语音
     Object.values(this.voices).forEach(voice => {
       if (voice) {
         voice.pause();
@@ -1502,964 +861,13 @@ const AudioManager = {
   }
 };
 
-// ========================================
-// 节日主题系统 - 升级版！自动计算感恩节和复活节
-// ========================================
-const HolidayThemes = {
-  current: null,
-  canvas: null,
-  ctx: null,
-  particles: [],
-  animationId: null,
-  
-  holidays: {
-    newYear: {
-      name: { en: 'Happy New Year!', zh: '新年快乐！', es: '¡Feliz Año Nuevo!' },
-      dates: [[1, 1]], // Jan 1
-      colors: ['#FFD700', '#FF1493', '#00CED1', '#FF69B4'],
-      background: 'linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d)',
-      particleType: 'confetti'
-    },
-    valentine: {
-      name: { en: 'Happy Valentine\'s Day!', zh: '情人节快乐！', es: '¡Feliz San Valentín!' },
-      dates: [[2, 14]], // Feb 14
-      colors: ['#FF1493', '#FF69B4', '#FFB6C1'],
-      background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      particleType: 'heart'
-    },
-    easter: {
-      name: { en: 'Happy Easter!', zh: '复活节快乐！', es: '¡Feliz Pascua!' },
-      dates: 'calculated', // 自动计算
-      colors: ['#FFD700', '#87CEEB', '#98FB98', '#FFB6C1'],
-      background: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)',
-      particleType: 'egg'
-    },
-    independence: {
-      name: { en: 'Happy 4th of July!', zh: '美国独立日快乐！', es: '¡Feliz 4 de Julio!' },
-      dates: [[7, 4]], // July 4
-      colors: ['#FF0000', '#FFFFFF', '#0000FF'],
-      background: 'linear-gradient(135deg, #0F2027 0%, #203A43 50%, #2C5364 100%)',
-      particleType: 'firework'
-    },
-    halloween: {
-      name: { en: 'Happy Halloween!', zh: '万圣节快乐！', es: '¡Feliz Halloween!' },
-      dates: [[10, 31]], // Oct 31
-      colors: ['#FF6600', '#000000', '#8B008B'],
-      background: 'linear-gradient(135deg, #2C003E 0%, #FF6600 100%)',
-      particleType: 'pumpkin'
-    },
-    thanksgiving: {
-      name: { en: 'Happy Thanksgiving!', zh: '感恩节快乐！', es: '¡Feliz Día de Acción de Gracias!' },
-      dates: 'calculated', // 自动计算：11月第4个星期四
-      colors: ['#FF8C00', '#8B4513', '#FFD700', '#DC143C'],
-      background: 'linear-gradient(135deg, #ad5389 0%, #3c1053 100%)',
-      particleType: 'leaf'
-    },
-    christmas: {
-      name: { en: 'Merry Christmas!', zh: '圣诞快乐！', es: '¡Feliz Navidad!' },
-      dates: [[12, 24], [12, 25], [12, 26]], // Dec 24-26
-      colors: ['#FF0000', '#00FF00', '#FFFFFF', '#FFD700'],
-      background: 'linear-gradient(135deg, #134E5E 0%, #71B280 100%)',
-      particleType: 'snowflake'
-    },
-    mothersDay: {
-      name: { en: 'Happy Mother\'s Day!', zh: '母亲节快乐！', es: '¡Feliz Día de la Madre!' },
-      dates: 'calculated', // 5月第2个星期日
-      colors: ['#FF69B4', '#FFB6C1', '#FFC0CB', '#FFD700'],
-      background: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      particleType: 'heart'
-    },
-    fathersDay: {
-      name: { en: 'Happy Father\'s Day!', zh: '父亲节快乐！', es: '¡Feliz Día del Padre!' },
-      dates: 'calculated', // 6月第3个星期日
-      colors: ['#4169E1', '#1E90FF', '#87CEEB', '#FFD700'],
-      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      particleType: 'confetti'
-    },
-    laborDay: {
-      name: { en: 'Happy Labor Day!', zh: '劳动节快乐！', es: '¡Feliz Día del Trabajo!' },
-      dates: [[5, 1]], // May 1 (International) 或 [[9, 1]] for US
-      colors: ['#FF0000', '#FFD700', '#FFA500'],
-      background: 'linear-gradient(135deg, #f12711 0%, #f5af19 100%)',
-      particleType: 'confetti'
-    },
-    chineseNewYear: {
-      name: { en: 'Happy Chinese New Year!', zh: '春节快乐！', es: '¡Feliz Año Nuevo Chino!' },
-      dates: 'calculated', // 自动计算（农历正月初一）
-      colors: ['#FF0000', '#FFD700', '#FF6600'],
-      background: 'linear-gradient(135deg, #D31027 0%, #EA384D 100%)',
-      particleType: 'firecracker'
-    }
-  },
-  
-  // 计算感恩节日期（11月第4个星期四）
-  calculateThanksgiving: function(year) {
-    // 11月第4个星期四
-    const nov1 = new Date(year, 10, 1); // 10 = November (0-indexed)
-    const dayOfWeek = nov1.getDay(); // 0=Sunday, 4=Thursday
-    
-    // 找到11月的第一个星期四
-    let firstThursday;
-    if (dayOfWeek <= 4) {
-      // 如果11月1日是周日到周四，第一个周四就在本周
-      firstThursday = 1 + (4 - dayOfWeek);
-    } else {
-      // 如果11月1日是周五或周六，第一个周四在下周
-      firstThursday = 1 + (11 - dayOfWeek);
-    }
-    
-    // 第4个星期四 = 第一个星期四 + 21天
-    const thanksgivingDay = firstThursday + 21;
-    
-    return { month: 11, day: thanksgivingDay };
-  },
-  
-  // 计算复活节日期（使用高斯算法）
-  calculateEaster: function(year) {
-    const a = year % 19;
-    const b = Math.floor(year / 100);
-    const c = year % 100;
-    const d = Math.floor(b / 4);
-    const e = b % 4;
-    const f = Math.floor((b + 8) / 25);
-    const g = Math.floor((b - f + 1) / 3);
-    const h = (19 * a + b - d - g + 15) % 30;
-    const i = Math.floor(c / 4);
-    const k = c % 4;
-    const l = (32 + 2 * e + 2 * i - h - k) % 7;
-    const m = Math.floor((a + 11 * h + 22 * l) / 451);
-    const month = Math.floor((h + l - 7 * m + 114) / 31);
-    const day = ((h + l - 7 * m + 114) % 31) + 1;
-    
-    return { month: month, day: day };
-  },
-  
-  // 计算农历新年（春节）- 2024-2035年的准确日期
-  calculateChineseNewYear: function(year) {
-    const chineseNewYearDates = {
-      2024: { month: 2, day: 10 },
-      2025: { month: 1, day: 29 },
-      2026: { month: 2, day: 17 },
-      2027: { month: 2, day: 6 },
-      2028: { month: 1, day: 26 },
-      2029: { month: 2, day: 13 },
-      2030: { month: 2, day: 3 },
-      2031: { month: 1, day: 23 },
-      2032: { month: 2, day: 11 },
-      2033: { month: 1, day: 31 },
-      2034: { month: 2, day: 19 },
-      2035: { month: 2, day: 8 }
-    };
-    
-    return chineseNewYearDates[year] || null;
-  },
-  
-  // 计算母亲节（5月第2个星期日）
-  calculateMothersDay: function(year) {
-    const may1 = new Date(year, 4, 1); // 4 = May
-    const dayOfWeek = may1.getDay(); // 0=Sunday
-    
-    // 找到5月的第一个星期日
-    let firstSunday;
-    if (dayOfWeek === 0) {
-      firstSunday = 1;
-    } else {
-      firstSunday = 8 - dayOfWeek;
-    }
-    
-    // 第2个星期日
-    const mothersDayDate = firstSunday + 7;
-    
-    return { month: 5, day: mothersDayDate };
-  },
-  
-  // 计算父亲节（6月第3个星期日）
-  calculateFathersDay: function(year) {
-    const june1 = new Date(year, 5, 1); // 5 = June
-    const dayOfWeek = june1.getDay(); // 0=Sunday
-    
-    // 找到6月的第一个星期日
-    let firstSunday;
-    if (dayOfWeek === 0) {
-      firstSunday = 1;
-    } else {
-      firstSunday = 8 - dayOfWeek;
-    }
-    
-    // 第3个星期日
-    const fathersDayDate = firstSunday + 14;
-    
-    return { month: 6, day: fathersDayDate };
-  },
-  
-  init: function() {
-    this.canvas = document.getElementById('holidayCanvas');
-    this.ctx = this.canvas.getContext('2d');
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
-    
-    window.addEventListener('resize', () => {
-      this.canvas.width = window.innerWidth;
-      this.canvas.height = window.innerHeight;
-    });
-    
-    this.checkHoliday();
-  },
-  
-  checkHoliday: function() {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = now.getMonth() + 1;
-    const day = now.getDate();
-    
-    // 计算动态节日日期
-    const thanksgiving = this.calculateThanksgiving(year);
-    const easter = this.calculateEaster(year);
-    const chineseNewYear = this.calculateChineseNewYear(year);
-    const mothersDay = this.calculateMothersDay(year);
-    const fathersDay = this.calculateFathersDay(year);
-    
-    for (const [key, holiday] of Object.entries(this.holidays)) {
-      // 处理需要自动计算的节日
-      if (holiday.dates === 'calculated') {
-        let matchDate = null;
-        
-        if (key === 'thanksgiving') {
-          matchDate = thanksgiving;
-        } else if (key === 'easter') {
-          matchDate = easter;
-        } else if (key === 'mothersDay') {
-          matchDate = mothersDay;
-        } else if (key === 'fathersDay') {
-          matchDate = fathersDay;
-        } else if (key === 'chineseNewYear') {
-          matchDate = chineseNewYear;
-        }
-        
-        if (matchDate) {
-          // 春节显示3天（前后各1天），其他节日只显示当天
-          if (key === 'chineseNewYear') {
-            if (month === matchDate.month && 
-                day >= matchDate.day - 1 && 
-                day <= matchDate.day + 1) {
-              this.applyTheme(holiday);
-              return;
-            }
-          } else {
-            if (month === matchDate.month && day === matchDate.day) {
-              this.applyTheme(holiday);
-              return;
-            }
-          }
-        }
-      } else {
-        // 处理固定日期的节日
-        for (const [m, d] of holiday.dates) {
-          if (month === m && day === d) {
-            this.applyTheme(holiday);
-            return;
-          }
-        }
-      }
-    }
-  },
-  
-  applyTheme: function(holiday) {
-    this.current = holiday;
-    
-    // 更改背景
-    document.body.style.background = holiday.background;
-    document.body.style.backgroundSize = '110% 110%';
-    
-    // 显示节日问候
-    const greeting = document.getElementById('holidayGreeting');
-    greeting.textContent = holiday.name[currentLanguage] || holiday.name.en;
-    greeting.classList.add('show');
-    
-    setTimeout(() => {
-      greeting.classList.remove('show');
-    }, 5000);
-    
-    // 开始粒子效果
-    this.startParticles();
-  },
-  
-  startParticles: function() {
-    if (!this.current) return;
-    
-    const createParticle = () => {
-      return {
-        x: Math.random() * this.canvas.width,
-        y: -20,
-        vx: (Math.random() - 0.5) * 2,
-        vy: Math.random() * 2 + 1,
-        size: Math.random() * 8 + 4,
-        color: this.current.colors[Math.floor(Math.random() * this.current.colors.length)],
-        rotation: Math.random() * 360,
-        rotationSpeed: (Math.random() - 0.5) * 5
-      };
-    };
-    
-    // 创建初始粒子
-    for (let i = 0; i < 30; i++) {
-      this.particles.push(createParticle());
-    }
-    
-    const animate = () => {
-      this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      
-      // 更新和绘制粒子
-      this.particles.forEach((p, index) => {
-        p.x += p.vx;
-        p.y += p.vy;
-        p.rotation += p.rotationSpeed;
-        
-        // 移除出屏幕的粒子
-        if (p.y > this.canvas.height + 20) {
-          this.particles.splice(index, 1);
-          this.particles.push(createParticle());
-        }
-        
-        // 绘制粒子
-        this.ctx.save();
-        this.ctx.translate(p.x, p.y);
-        this.ctx.rotate(p.rotation * Math.PI / 180);
-        
-        if (this.current.particleType === 'snowflake') {
-          this.drawSnowflake(p);
-        } else if (this.current.particleType === 'heart') {
-          this.drawHeart(p);
-        } else if (this.current.particleType === 'confetti') {
-          this.drawConfetti(p);
-        } else {
-          this.drawCircle(p);
-        }
-        
-        this.ctx.restore();
-      });
-      
-      this.animationId = requestAnimationFrame(animate);
-    };
-    
-    animate();
-  },
-  
-  drawSnowflake: function(p) {
-    this.ctx.fillStyle = p.color;
-    this.ctx.beginPath();
-    for (let i = 0; i < 6; i++) {
-      this.ctx.moveTo(0, 0);
-      this.ctx.lineTo(0, -p.size);
-      this.ctx.rotate(Math.PI / 3);
-    }
-    this.ctx.fill();
-  },
-  
-  drawHeart: function(p) {
-    this.ctx.fillStyle = p.color;
-    this.ctx.beginPath();
-    const size = p.size;
-    this.ctx.moveTo(0, size / 4);
-    this.ctx.bezierCurveTo(size / 2, -size / 2, size, size / 8, 0, size);
-    this.ctx.bezierCurveTo(-size, size / 8, -size / 2, -size / 2, 0, size / 4);
-    this.ctx.fill();
-  },
-  
-  drawConfetti: function(p) {
-    this.ctx.fillStyle = p.color;
-    this.ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
-  },
-  
-  drawCircle: function(p) {
-    this.ctx.fillStyle = p.color;
-    this.ctx.beginPath();
-    this.ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
-    this.ctx.fill();
-  }
-};
-
-// ========================================
-// 抽奖轮盘系统 - 新增！
-// ========================================
-const LotteryWheel = {
-  prizes: [
-    { name: { en: 'Free Hand Care', zh: '免费手部护理', es: 'Cuidado de Manos Gratis' }, icon: '🎊', chance: 5, color: '#FF6B6B' },
-    { name: { en: '20% Off', zh: '8折优惠', es: '20% Descuento' }, icon: '💎', chance: 10, color: '#4ECDC4' },
-    { name: { en: '15% Off', zh: '8.5折优惠', es: '15% Descuento' }, icon: '✨', chance: 20, color: '#95E1D3' },
-    { name: { en: '10% Off', zh: '9折优惠', es: '10% Descuento' }, icon: '💅', chance: 30, color: '#FFE66D' },
-    { name: { en: 'Free Nail Stickers', zh: '免费美甲贴片', es: 'Pegatinas Gratis' }, icon: '🎁', chance: 10, color: '#F38181' },
-    { name: { en: 'Friend Referral 50% Off', zh: '推荐朋友各5折', es: 'Referir Amigo 50%' }, icon: '🌟', chance: 5, color: '#AA96DA' },
-    { name: { en: 'Free Gift', zh: '下次送小礼品', es: 'Regalo Gratis' }, icon: '💝', chance: 15, color: '#FCBAD3' },
-    { name: { en: 'Try Again', zh: '再来一次', es: 'Inténtalo de Nuevo' }, icon: '🎉', chance: 5, color: '#FFFFD2' }
-  ],
-  isSpinning: false,
-  currentRotation: 0,
-  
-  init: function() {
-    this.createWheel();
-  },
-  
-  createWheel: function() {
-    const wheel = document.getElementById('lotteryWheel');
-    const totalSlices = this.prizes.length;
-    const sliceAngle = 360 / totalSlices;
-    
-    this.prizes.forEach((prize, index) => {
-      const slice = document.createElement('div');
-      slice.className = 'wheel-slice';
-      slice.style.background = prize.color;
-      slice.style.transform = `rotate(${index * sliceAngle}deg) skewY(${90 - sliceAngle}deg)`;
-      slice.innerHTML = `${prize.icon} <span style="margin-left: 8px;">${prize.name.en}</span>`;
-      wheel.appendChild(slice);
-    });
-  },
-  
-  spin: function() {
-    if (this.isSpinning) return;
-    
-    this.isSpinning = true;
-    const button = document.getElementById('spinButton');
-    button.disabled = true;
-    button.textContent = 'Spinning...';
-    
-    // 根据概率选择奖品
-    const winner = this.selectWinner();
-    const winnerIndex = this.prizes.indexOf(winner);
-    const sliceAngle = 360 / this.prizes.length;
-    
-    // 计算目标角度（让指针指向奖品中心）
-    const targetAngle = 360 - (winnerIndex * sliceAngle + sliceAngle / 2);
-    const spins = 5; // 转5圈
-    const finalRotation = spins * 360 + targetAngle;
-    
-    const wheel = document.getElementById('lotteryWheel');
-    wheel.style.transform = `rotate(${finalRotation}deg)`;
-    
-    setTimeout(() => {
-      this.showResult(winner);
-      this.isSpinning = false;
-      button.disabled = false;
-      button.textContent = 'SPIN AGAIN';
-      this.currentRotation = finalRotation % 360;
-    }, 4000);
-  },
-  
-  selectWinner: function() {
-    const totalChance = this.prizes.reduce((sum, p) => sum + p.chance, 0);
-    let random = Math.random() * totalChance;
-    
-    for (const prize of this.prizes) {
-      if (random < prize.chance) {
-        return prize;
-      }
-      random -= prize.chance;
-    }
-    
-    return this.prizes[this.prizes.length - 1];
-  },
-  
-  showResult: function(prize) {
-    const result = document.getElementById('lotteryResult');
-    const icon = document.getElementById('resultIcon');
-    const title = document.getElementById('resultTitle');
-    const desc = document.getElementById('resultDesc');
-    
-    icon.textContent = prize.icon;
-    title.textContent = 'Congratulations!';
-    desc.textContent = `You won: ${prize.name[currentLanguage] || prize.name.en}`;
-    
-    result.classList.add('show');
-    
-    // 保存抽奖记录（24小时有效）
-    const lotteryData = {
-      prize: prize.name.en,
-      icon: prize.icon,
-      timestamp: Date.now()
-    };
-    try {
-      localStorage.setItem('lotteryRecord', JSON.stringify(lotteryData));
-    } catch (e) {
-      console.log('无法保存抽奖记录');
-    }
-    
-    // 播放音效
-    AudioManager.playSound('promoAppear');
-  }
-};
-
-// 检查抽奖记录
-function checkLotteryRecord() {
-  try {
-    const record = localStorage.getItem('lotteryRecord');
-    if (record) {
-      const data = JSON.parse(record);
-      const hoursPassed = (Date.now() - data.timestamp) / (1000 * 60 * 60);
-      
-      if (hoursPassed < 24) {
-        // 24小时内已经抽过奖
-        return {
-          hasDrawn: true,
-          prize: data.prize,
-          icon: data.icon,
-          hoursRemaining: Math.ceil(24 - hoursPassed)
-        };
-      }
-    }
-  } catch (e) {
-    console.log('检查抽奖记录失败');
-  }
-  return { hasDrawn: false };
-}
-
-function spinWheel() {
-  const record = checkLotteryRecord();
-  if (record.hasDrawn) {
-    alert(`您今天已经抽过奖了！\n中奖：${record.icon} ${record.prize}\n${record.hoursRemaining}小时后可以再次抽奖`);
-    return;
-  }
-  LotteryWheel.spin();
-}
-
-function showLottery() {
-  const record = checkLotteryRecord();
-  if (record.hasDrawn) {
-    alert(`您今天已经抽过奖了！\n中奖：${record.icon} ${record.prize}\n${record.hoursRemaining}小时后可以再次抽奖`);
-    return;
-  }
-  
-  const container = document.getElementById('lotteryContainer');
-  container.classList.add('show');
-  AudioManager.playSound('panelSlide');
-}
-
-function closeLottery() {
-  const container = document.getElementById('lotteryContainer');
-  const result = document.getElementById('lotteryResult');
-  result.classList.remove('show');
-  
-  setTimeout(() => {
-    container.classList.remove('show');
-  }, 300);
-}
-
-// ========================================
-// 音乐控制系统
-// ========================================
-let isMusicMuted = false;
-
-// 从localStorage读取音乐状态
-function loadMusicState() {
-  try {
-    const saved = localStorage.getItem('musicMuted');
-    if (saved !== null) {
-      isMusicMuted = saved === 'true';
-      updateMusicButton();
-      if (isMusicMuted) {
-        AudioManager.stopBGM();
-      }
-    }
-  } catch (e) {
-    console.log('无法读取音乐状态');
-  }
-}
-
-// 保存音乐状态到localStorage
-function saveMusicState() {
-  try {
-    localStorage.setItem('musicMuted', isMusicMuted.toString());
-  } catch (e) {
-    console.log('无法保存音乐状态');
-  }
-}
-
-// 更新音乐按钮显示
-function updateMusicButton() {
-  const button = document.getElementById('musicToggle');
-  const icon = document.getElementById('musicIcon');
-  if (button && icon) {
-    if (isMusicMuted) {
-      icon.textContent = '🔇';
-      button.classList.add('muted');
-      button.title = '点击开启音乐';
-    } else {
-      icon.textContent = '🔊';
-      button.classList.remove('muted');
-      button.title = '点击关闭音乐';
-    }
-  }
-}
-
-// 切换音乐开关
-function toggleMusic() {
-  isMusicMuted = !isMusicMuted;
-  
-  if (isMusicMuted) {
-    // 关闭音乐
-    AudioManager.stopBGM();
-  } else {
-    // 开启音乐
-    AudioManager.playBGM();
-  }
-  
-  updateMusicButton();
-  saveMusicState();
-}
-
-// 页面加载时恢复音乐状态
-window.addEventListener('DOMContentLoaded', () => {
-  loadMusicState();
-});
-
-// ========================================
-// 多语言系统
-// ========================================
-let currentLanguage = (typeof ASSETS !== 'undefined' && ASSETS.defaultLanguage) ? ASSETS.defaultLanguage : 'en';
-
-function switchLanguage(lang) {
-  currentLanguage = lang;
-  
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.remove('active');
-    if (btn.dataset.lang === lang) {
-      btn.classList.add('active');
-    }
-  });
-  
-  AudioManager.loadVoices(lang);
-  updateTexts();
-  localStorage.setItem('preferredLanguage', lang);
-  
-  // 立即更新预约面板时钟的日期格式
-  updateClock();
-  
-  // 更新节日问候
-  if (HolidayThemes.current) {
-    const greeting = document.getElementById('holidayGreeting');
-    greeting.textContent = HolidayThemes.current.name[lang];
-  }
-}
-
-function updateTexts() {
-  if (typeof ASSETS === 'undefined' || !ASSETS.languages || !ASSETS.languages[currentLanguage]) {
-    return;
-  }
-  
-  const texts = ASSETS.languages[currentLanguage];
-  
-  document.getElementById('logo').textContent = texts.mainLogo;
-  document.querySelector('.speech-bubble').textContent = texts.greeting;
-  document.getElementById('btnBook').textContent = texts.buttonBook;
-  document.getElementById('btnGiftFull').textContent = texts.buttonGift;
-  document.getElementById('btnServices').textContent = texts.buttonServices;
-  document.getElementById('btnMember').textContent = texts.buttonMember;
-  document.querySelector('.promo-text').textContent = texts.promoTitle;
-  document.querySelector('.promo-subtitle').textContent = texts.promoSubtitle;
-}
-
-window.addEventListener('DOMContentLoaded', function() {
-  AudioManager.init();
-  HolidayThemes.init();
-  LotteryWheel.init();
-  
-  // 启动实时时钟
-  updateClock();
-  setInterval(updateClock, 1000);
-  
-  if (typeof ASSETS !== 'undefined') {
-    const savedLang = localStorage.getItem('preferredLanguage');
-    if (savedLang && ASSETS.languages && ASSETS.languages[savedLang]) {
-      currentLanguage = savedLang;
-    } else if (ASSETS.defaultLanguage && ASSETS.languages && ASSETS.languages[ASSETS.defaultLanguage]) {
-      currentLanguage = ASSETS.defaultLanguage;
-    }
-    
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-      btn.classList.remove('active');
-      if (btn.dataset.lang === currentLanguage) {
-        btn.classList.add('active');
-      }
-    });
-    
-    if (ASSETS.images && ASSETS.images.background) {
-      document.body.style.backgroundImage = `url('${ASSETS.images.background}')`;
-    }
-    
-    if (ASSETS.images && ASSETS.images.logoTexture) {
-      const logo = document.getElementById('logo');
-      logo.style.backgroundImage = `url('${ASSETS.images.logoTexture}')`;
-    }
-    
-    if (ASSETS.colors) {
-      document.getElementById('promoCard').style.background = 
-        `linear-gradient(135deg, ${ASSETS.colors.primary}, ${ASSETS.colors.secondary})`;
-    }
-    
-    updateTexts();
-    AudioManager.playSound('pageLoad');
-  } else {
-    console.warn('config-sound.js未加载，使用默认设置');
-  }
-});
-
-// ========================================
-// 实时时钟系统（仅用于预约面板）
-// ========================================
-function updateClock() {
-  const now = new Date();
-  
-  // 格式化时间
-  const hours = String(now.getHours()).padStart(2, '0');
-  const minutes = String(now.getMinutes()).padStart(2, '0');
-  const seconds = String(now.getSeconds()).padStart(2, '0');
-  const timeString = `${hours}:${minutes}:${seconds}`;
-  
-  // 格式化日期
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1;
-  const date = now.getDate();
-  const weekdays = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
-  const weekday = weekdays[now.getDay()];
-  
-  let dateString;
-  if (currentLanguage === 'zh') {
-    dateString = `${year}年${month}月${date}日 ${weekday}`;
-  } else if (currentLanguage === 'en') {
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const weekdaysEn = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    dateString = `${monthNames[month-1]} ${date}, ${year} ${weekdaysEn[now.getDay()]}`;
-  } else if (currentLanguage === 'es') {
-    const monthNamesEs = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-    const weekdaysEs = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-    dateString = `${date} ${monthNamesEs[month-1]} ${year} ${weekdaysEs[now.getDay()]}`;
-  }
-  
-  // 只更新预约面板时钟
-  const panelClockTime = document.getElementById('panelClockTime');
-  const panelClockDate = document.getElementById('panelClockDate');
-  if (panelClockTime) panelClockTime.textContent = timeString;
-  if (panelClockDate) panelClockDate.textContent = dateString;
-}
-
-function playLogoSound() {
-  AudioManager.playSound('logoClick');
-}
-
-// ========================================
-// 视差效果系统
-// ========================================
-let tiltX = 0, tiltY = 0;
-
-// 缓存DOM元素以提升性能
-let parallaxElements = null;
-
-function updateParallax() {
-  // 首次调用时缓存元素
-  if (!parallaxElements) {
-    parallaxElements = {
-      body: document.body,
-      logo: document.getElementById('logo'),
-      buttons: document.getElementById('buttons'),
-      langSwitcher: document.querySelector('.language-switcher')
-    };
-  }
-  
-  const bgMoveX = tiltX * 50;
-  const bgMoveY = tiltY * 50;
-  const logoMoveX = tiltX * 5;
-  const logoMoveY = tiltY * 5;
-  const btnMoveX = tiltX * 2;
-  const btnMoveY = tiltY * 2;
-  const langMoveX = tiltX * 3;
-  const langMoveY = tiltY * 3;
-  
-  parallaxElements.body.style.backgroundPosition = `calc(50% + ${bgMoveX}px) calc(50% + ${bgMoveY}px)`;
-  
-  if (parallaxElements.logo) {
-    parallaxElements.logo.style.transform = `translate(calc(-50% + ${logoMoveX}px), ${logoMoveY}px)`;
-  }
-  
-  if (parallaxElements.buttons) {
-    parallaxElements.buttons.style.transform = `translate(calc(-50% + ${btnMoveX}px), ${btnMoveY}px)`;
-  }
-  
-  if (parallaxElements.langSwitcher) {
-    parallaxElements.langSwitcher.style.transform = `translate(${langMoveX}px, ${langMoveY}px)`;
-  }
-}
-
-document.addEventListener('mousemove', (e) => {
-  const centerX = window.innerWidth / 2;
-  const centerY = window.innerHeight / 2;
-  
-  tiltX = (e.clientX - centerX) / centerX * 0.3;
-  tiltY = (e.clientY - centerY) / centerY * 0.3;
-  
-  updateParallax();
-});
-
-// ========================================
-// 功能面板系统
-// ========================================
-const panelContents = {
-  zh: {
-    book: {
-      title: '📅 在线预约',
-      sections: [
-        { title: '预约流程', text: '选择服务 → 选择时间 → 确认预约 → 完成！', features: ['💅 查看所有美甲服务项目', '📅 选择您方便的时间段', '👤 填写您的联系方式', '✅ 即时确认预约成功'] },
-        { title: '为什么选择我们', features: ['🎨 专业美甲师团队', '⏰ 灵活的预约时间', '💎 优质的服务体验', '🎁 新客专享优惠'] }
-      ],
-      action: '立即预约'
-    },
-    services: {
-      title: '💅 服务项目',
-      sections: [
-        { title: '美甲服务', features: ['✨ 经典美甲 - 基础护理与涂色', '💎 水晶美甲 - 持久靓丽', '🎨 彩绘美甲 - 个性创意', '🌸 日式美甲 - 精致优雅', '💫 光疗美甲 - 自然光泽'] },
-        { title: '特色项目', features: ['🦶 足部护理', '✋ 手部SPA', '💆 指甲修复', '🎀 新娘美甲'] }
-      ],
-      action: '查看价格'
-    },
-    member: {
-      title: '👑 会员中心',
-      sections: [
-        { title: '会员特权', features: ['🎁 每月生日礼', '💰 专享折扣优惠', '⭐ 积分奖励制度', '🎉 优先预约权', '💝 节日特别礼遇'] },
-        { title: '会员等级', text: '银卡 → 金卡 → 钻石卡，消费越多，特权越多！', features: ['🥈 银卡会员 - 9.5折优惠', '🥇 金卡会员 - 9折优惠', '💎 钻石会员 - 8.5折优惠'] }
-      ],
-      action: '立即开通'
-    }
-  },
-  en: {
-    book: {
-      title: '📅 Online Booking',
-      sections: [
-        { title: 'Booking Process', text: 'Choose Service → Select Time → Confirm → Done!', features: ['💅 Browse all nail services', '📅 Pick your preferred time', '👤 Enter your contact info', '✅ Instant confirmation'] },
-        { title: 'Why Choose Us', features: ['🎨 Professional nail artists', '⏰ Flexible scheduling', '💎 Premium service', '🎁 New client offers'] }
-      ],
-      action: 'Book Now'
-    },
-    services: {
-      title: '💅 Our Services',
-      sections: [
-        { title: 'Nail Services', features: ['✨ Classic Manicure', '💎 Acrylic Nails', '🎨 Nail Art', '🌸 Japanese Gel', '💫 UV Gel Nails'] },
-        { title: 'Special Services', features: ['🦶 Pedicure', '✋ Hand SPA', '💆 Nail Repair', '🎀 Bridal Nails'] }
-      ],
-      action: 'View Prices'
-    },
-    member: {
-      title: '👑 Membership',
-      sections: [
-        { title: 'Benefits', features: ['🎁 Birthday gifts', '💰 Exclusive discounts', '⭐ Rewards program', '🎉 Priority booking', '💝 Holiday specials'] },
-        { title: 'Tiers', text: 'Silver → Gold → Diamond', features: ['🥈 Silver - 5% off', '🥇 Gold - 10% off', '💎 Diamond - 15% off'] }
-      ],
-      action: 'Join Now'
-    }
-  },
-  es: {
-    book: {
-      title: '📅 Reserva Online',
-      sections: [
-        { title: 'Proceso de Reserva', text: 'Elegir Servicio → Seleccionar Hora → Confirmar → ¡Listo!', features: ['💅 Ver todos los servicios', '📅 Elegir horario', '👤 Ingresar contacto', '✅ Confirmación instantánea'] },
-        { title: 'Por Qué Elegirnos', features: ['🎨 Artistas profesionales', '⏰ Horarios flexibles', '💎 Servicio premium', '🎁 Ofertas nuevos clientes'] }
-      ],
-      action: 'Reservar Ahora'
-    },
-    services: {
-      title: '💅 Nuestros Servicios',
-      sections: [
-        { title: 'Servicios de Uñas', features: ['✨ Manicura Clásica', '💎 Uñas Acrílicas', '🎨 Nail Art', '🌸 Gel Japonés', '💫 Uñas de Gel UV'] },
-        { title: 'Servicios Especiales', features: ['🦶 Pedicura', '✋ SPA de Manos', '💆 Reparación', '🎀 Uñas Nupciales'] }
-      ],
-      action: 'Ver Precios'
-    },
-    member: {
-      title: '👑 Centro de Miembros',
-      sections: [
-        { title: 'Beneficios', features: ['🎁 Regalo de cumpleaños', '💰 Descuentos exclusivos', '⭐ Programa de puntos', '🎉 Reserva prioritaria', '💝 Ofertas especiales'] },
-        { title: 'Niveles', text: 'Plata → Oro → Diamante', features: ['🥈 Plata - 5% descuento', '🥇 Oro - 10% descuento', '💎 Diamante - 15% descuento'] }
-      ],
-      action: 'Unirse Ahora'
-    }
-  }
-};
-
-function openFunctionPanel(type) {
-  const panel = document.getElementById('functionPanel');
-  const overlay = document.getElementById('panelOverlay');
-  const title = document.getElementById('panelTitle');
-  const contentArea = document.getElementById('panelContentArea');
-  
-  AudioManager.playSound('panelSlide');
-  
-  const lang = currentLanguage || 'zh';
-  const content = panelContents[lang][type];
-  
-  title.textContent = content.title;
-  
-  // 添加时钟显示
-  let html = '';
-  if (type === 'book') {
-    const clockLabel = lang === 'zh' ? '当前时间' : (lang === 'en' ? 'Current Time' : 'Hora Actual');
-    html += `
-      <div class="panel-clock">
-        <div class="panel-clock-label">${clockLabel}</div>
-        <div class="panel-clock-time" id="panelClockTime">00:00:00</div>
-        <div class="panel-clock-date" id="panelClockDate">--</div>
-      </div>
-    `;
-  }
-  
-  content.sections.forEach(section => {
-    html += `<div class="content-section">`;
-    html += `<div class="section-title">${section.title}</div>`;
-    if (section.text) html += `<div class="section-text">${section.text}</div>`;
-    if (section.features) {
-      html += `<ul class="feature-list">`;
-      section.features.forEach(feature => {
-        html += `<li class="feature-item">${feature}</li>`;
-      });
-      html += `</ul>`;
-    }
-    html += `</div>`;
-  });
-  
-  html += `<button class="action-button" onclick="alert('功能开发中')">${content.action}</button>`;
-  
-  contentArea.innerHTML = html;
-  
-  // 立即更新面板中的时钟
-  if (type === 'book') {
-    updateClock();
-  }
-  
-  overlay.classList.add('show');
-  panel.classList.remove('closing');
-  panel.classList.add('show');
-}
-
-function closeFunctionPanel() {
-  const panel = document.getElementById('functionPanel');
-  const overlay = document.getElementById('panelOverlay');
-  
-  panel.classList.add('closing');
-  
-  setTimeout(() => {
-    panel.classList.remove('show', 'closing');
-    overlay.classList.remove('show');
-  }, 1000);
-}
-
-function clickButton(buttonType) {
-  AudioManager.playVoice('button' + buttonType.charAt(0).toUpperCase() + buttonType.slice(1));
-  setTimeout(() => openFunctionPanel(buttonType), 100);
-}
-
-// ========================================
-// 游戏逻辑（升级版）
-// ========================================
+// ========== DOM元素 ==========
 const dot = document.querySelector(".light-dot");
 const eyes = dot.querySelectorAll(".eye");
 const mouth = document.querySelector(".mouth");
 const speechBubble = document.querySelector(".speech-bubble");
 const giftBtn = document.getElementById("giftBtn");
+const letterU = document.getElementById("letterU");
 const ballCountDisplay = document.getElementById("ballCount");
 const scoreDisplay = document.getElementById("scoreValue");
 const promoCard = document.getElementById("promoCard");
@@ -2477,212 +885,25 @@ let walkTimer, mouseX = centerX, mouseY = centerY;
 let clickCount = 0, isScared = false;
 let balls = [];
 
+// 初始位置在上方
 dot.style.left = `${centerX - 30}px`;
 dot.style.top = `-100px`;
 
-// ========================================
-// iPhone陀螺仪权限系统
-// ========================================
-let gyroPermissionGranted = false;
-let deviceOrientationActive = false;
-
-async function requestGyroPermission() {
-  const overlay = document.getElementById('gyroPermission');
-  const button = document.getElementById('enableGyroBtn');
-  
-  button.onclick = async () => {
-    try {
-      // iOS 13+ 需要请求权限
-      if (typeof DeviceMotionEvent !== 'undefined' && 
-          typeof DeviceMotionEvent.requestPermission === 'function') {
-        const permission = await DeviceMotionEvent.requestPermission();
-        if (permission === 'granted') {
-          gyroPermissionGranted = true;
-          // 保存权限状态（安全模式）
-          try {
-            localStorage.setItem('gyroGranted', 'true');
-          } catch (e) {
-            console.log('无法保存陀螺仪权限状态');
-          }
-          enableDeviceOrientation();
-          overlay.classList.remove('show');
-        } else {
-          alert('需要允许动作和方向权限才能使用体感功能');
-        }
-      } else {
-        // 非iOS或旧版iOS，直接启动
-        gyroPermissionGranted = true;
-        try {
-          localStorage.setItem('gyroGranted', 'true');
-        } catch (e) {
-          console.log('无法保存陀螺仪权限状态');
-        }
-        enableDeviceOrientation();
-        overlay.classList.remove('show');
-      }
-    } catch (error) {
-      console.error('陀螺仪权限请求失败:', error);
-      // 尝试直接启动（可能是非iOS设备）
-      gyroPermissionGranted = true;
-      try {
-        localStorage.setItem('gyroGranted', 'true');
-      } catch (e) {
-        console.log('无法保存陀螺仪权限状态');
-      }
-      enableDeviceOrientation();
-      overlay.classList.remove('show');
-    }
-  };
-}
-
-function enableDeviceOrientation() {
-  if (deviceOrientationActive) return;
-  deviceOrientationActive = true;
-  
-  let lastUpdateTime = 0;
-  const updateInterval = 33; // 约30fps（1000ms / 30 ≈ 33ms）
-  let rafId = null;
-  let pendingUpdate = false;
-  
-  window.addEventListener('deviceorientation', (e) => {
-    if (e.gamma !== null && e.beta !== null) {
-      tiltX = e.gamma / 90;
-      tiltY = e.beta / 90;
-      
-      // 使用RAF节流，避免过度更新
-      if (!pendingUpdate) {
-        pendingUpdate = true;
-        rafId = requestAnimationFrame((timestamp) => {
-          const timeSinceLastUpdate = timestamp - lastUpdateTime;
-          
-          // 限制更新频率到30fps
-          if (timeSinceLastUpdate >= updateInterval) {
-            updateParallax();
-            lastUpdateTime = timestamp;
-          }
-          
-          pendingUpdate = false;
-        });
-      }
-    }
-  });
-}
-
-// 检测是否需要显示权限请求（仅iOS 13+）
-function checkGyroPermissionNeeded() {
-  // 检查是否已经授权过（记忆功能 - 安全模式）
-  let savedPermission = null;
-  try {
-    savedPermission = localStorage.getItem('gyroGranted');
-  } catch (e) {
-    console.log('无法读取陀螺仪权限状态');
-  }
-  
-  if (savedPermission === 'true') {
-    // 已经授权过，尝试直接启动
-    try {
-      gyroPermissionGranted = true;
-      enableDeviceOrientation();
-      console.log('陀螺仪自动启动成功');
-      return; // 成功启动，不显示按钮
-    } catch (error) {
-      // 启动失败，清除记录并显示按钮
-      console.log('自动启动失败，需要重新授权');
-      try {
-        localStorage.removeItem('gyroGranted');
-      } catch (e) {
-        // 忽略清除失败
-      }
-    }
-  }
-  
-  // 未授权或自动启动失败，显示权限请求按钮
-  if (typeof DeviceMotionEvent !== 'undefined' && 
-      typeof DeviceMotionEvent.requestPermission === 'function') {
-    // iOS 13+，需要请求权限
-    const overlay = document.getElementById('gyroPermission');
-    if (overlay) {
-      overlay.classList.add('show');
-      requestGyroPermission();
-    }
-  } else if (window.DeviceOrientationEvent) {
-    // 非iOS或旧版iOS，直接启动
-    gyroPermissionGranted = true;
-    try {
-      localStorage.setItem('gyroGranted', 'true');
-    } catch (e) {
-      console.log('无法保存陀螺仪权限状态');
-    }
-    enableDeviceOrientation();
-  }
-}
-
-// ========================================
-// 横屏检测系统
-// ========================================
-function checkOrientation() {
-  const warning = document.getElementById('landscapeWarning');
-  const isMobile = window.innerWidth < 1024; // 只检测移动设备
-  const isLandscape = window.innerWidth > window.innerHeight;
-  
-  if (isMobile && isLandscape) {
-    // 移动设备横屏时显示提示
-    warning.classList.add('show');
-  } else {
-    warning.classList.remove('show');
-  }
-}
-
-window.addEventListener('orientationchange', checkOrientation);
-window.addEventListener('resize', checkOrientation);
-
-// ========================================
-// 音乐自动停止系统（增强版）
-// ========================================
-document.addEventListener('visibilitychange', () => {
-  if (document.hidden) {
-    // 页面隐藏时停止所有音频
-    AudioManager.stopAllAudio();
-  } else {
-    // 页面显示时不自动播放（避免打扰用户）
-    // 如果需要恢复音乐，取消注释下面这行：
-    // AudioManager.playBGM();
-  }
-});
-
-// 页面卸载/关闭时停止所有音频
-window.addEventListener('beforeunload', () => {
-  AudioManager.stopAllAudio();
-});
-
-// 页面失去焦点时停止音频（额外保险）
-window.addEventListener('blur', () => {
-  AudioManager.stopAllAudio();
-});
-
-// 页面隐藏时停止音频（移动端专用）
-window.addEventListener('pagehide', () => {
-  AudioManager.stopAllAudio();
-});
-
+// ========== 触屏启动系统 ==========
 window.addEventListener('load', () => {
-  dot.style.left = `${centerX - 30}px`;
-  dot.style.top = `-100px`;
-  
   let hasStarted = false;
-  
-  // 检查横屏
-  checkOrientation();
   
   function startEverything() {
     if (hasStarted) return;
     hasStarted = true;
     
-    // 检查是否需要陀螺仪权限
-    checkGyroPermissionNeeded();
+    // 初始化音效系统
+    AudioManager.init();
     
+    // 开启背景音乐
     AudioManager.playBGM();
     
+    // 精灵从上方飘落
     dot.style.transition = 'top 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
     dot.style.top = `${centerY - 30}px`;
     dot.classList.add('visible');
@@ -2703,8 +924,19 @@ window.addEventListener('load', () => {
     }, 1500);
   }
   
+  // 等待用户触屏/点击
   document.addEventListener('click', startEverything, { once: true });
   document.addEventListener('touchstart', startEverything, { once: true });
+  
+  // 陀螺仪
+  if (window.DeviceOrientationEvent) {
+    window.addEventListener('deviceorientation', (e) => {
+      if (e.gamma !== null && e.beta !== null) {
+        tiltX = e.gamma / 90;
+        tiltY = (e.beta - 45) / 90;
+      }
+    });
+  }
 });
 
 function showSpeechBubble(text, duration = 3000) {
@@ -2845,28 +1077,25 @@ function handleDotClick(e) {
 dot.addEventListener("touchstart", handleDotClick, { passive: false });
 dot.addEventListener("click", handleDotClick);
 
-// 升级：掉落不同类型的球
 function dropBall() {
   const rect = dot.getBoundingClientRect();
   const ball = document.createElement("div");
   ball.className = "glass-ball";
   
-  // 根据概率决定球的类型
   const random = Math.random() * 100;
   let ballType, ballScore;
   
-  if (random < 5) { // 5% 金球
+  if (random < 5) {
     ballType = 'gold';
     ballScore = 3;
     ball.textContent = '⭐';
-  } else if (random < 30) { // 25% 银球
+  } else if (random < 30) {
     ballType = 'silver';
     ballScore = 2;
     ball.textContent = '✨';
-  } else { // 70% 普通球
+  } else {
     ballType = 'normal';
     ballScore = 1;
-    ball.textContent = '';
   }
   
   ball.classList.add(ballType);
@@ -2891,23 +1120,6 @@ function dropBall() {
 
 function animateBall(ball) {
   const gravity = 0.6;
-  const friction = 0.985;  // 减小摩擦力，让球更容易滚动
-  const tiltForce = 4.5;  // 增强倾斜力度
-  const bounce = 0.5;
-  
-  function update() {
-    if (ball.eaten) return;
-    
-    ball.vy += gravity;
-    ball.vx += tiltX * tiltForce;
-    ball.vy += tiltY * tiltForce * 1.0;  // 上下倾斜和左右一样灵敏
-    ball.vx *= friction;
-    ball.vy *= friction;
-    ball.x += ball.vx;
-    ball.y += ball.vy;
-    
-    function animateBall(ball) {
-  const gravity = 0.6;
   const friction = 0.985;
   const tiltForce = 4.5;
   const bounce = 0.5;
@@ -2917,20 +1129,17 @@ function animateBall(ball) {
     
     ball.vy += gravity;
     ball.vx += tiltX * tiltForce;
-    ball.vy += tiltY * tiltForce * 1.0;
+    ball.vy += tiltY * tiltForce;
     ball.vx *= friction;
     ball.vy *= friction;
     ball.x += ball.vx;
     ball.y += ball.vy;
     
-if (ball.y >= groundY) {
+    if (ball.y >= groundY) {
       ball.y = groundY;
       ball.vy = -ball.vy * bounce;
-      
-      // 落地时减少水平速度，更真实
       ball.vx *= 0.85;
       
-      // 速度很小时完全停止弹跳
       if (Math.abs(ball.vy) < 1) {
         ball.vy = 0;
       }
@@ -2939,14 +1148,7 @@ if (ball.y >= groundY) {
         AudioManager.playSound('ballDrop');
         ball.hasPlayedSound = true;
       }
-    }                            // ← 结束（和if对齐，缩进4个空格）
-    if (ball.x < 0) {              // ← 下面是其他代码，不要动
-      ball.x = 0;
-      ball.vx = -ball.vx * 0.5;
     }
-    // ... 后面还有代码
-  }
-}
     
     if (ball.x < 0) {
       ball.x = 0;
@@ -2960,102 +1162,89 @@ if (ball.y >= groundY) {
     ball.element.style.left = `${ball.x}px`;
     ball.element.style.top = `${ball.y}px`;
     
-    checkGiftCollision(ball);
+    checkUCollection(ball);
     
     if (!ball.eaten) requestAnimationFrame(update);
   }
   update();
 }
 
-function checkGiftCollision(ball) {
+function checkUCollection(ball) {
   if (ball.eaten) return;
   
-  // 获取字母O的位置
-  const letterO = document.getElementById('letterO');
-  if (!letterO) return;
-  
-  const oRect = letterO.getBoundingClientRect();
+  const uRect = letterU.getBoundingClientRect();
   const ballRect = ball.element.getBoundingClientRect();
   
-  // 计算球和O的中心距离
   const ballCenterX = ballRect.left + ballRect.width / 2;
   const ballCenterY = ballRect.top + ballRect.height / 2;
-  const oCenterX = oRect.left + oRect.width / 2;
-  const oCenterY = oRect.top + oRect.height / 2;
-  const distance = Math.hypot(ballCenterX - oCenterX, ballCenterY - oCenterY);
   
-  // O的半径（字母大小的一半）
-  const oRadius = Math.min(oRect.width, oRect.height) / 2;
+  const uLeft = uRect.left;
+  const uRight = uRect.right;
+  const uTop = uRect.top + uRect.height * 0.3;
+  const uBottom = uRect.bottom;
   
-  // 吸引范围（O半径的3倍）
-  const attractRange = oRadius * 3;
-  
-  // 在吸引范围内，施加吸引力
-  if (distance < attractRange && distance > oRadius) {
-    const attractStrength = 0.15;
-    const dx = oCenterX - ballCenterX;
-    const dy = oCenterY - ballCenterY;
-    ball.vx += (dx / distance) * attractStrength;
-    ball.vy += (dy / distance) * attractStrength;
+  if (ballCenterX >= uLeft && ballCenterX <= uRight &&
+      ballCenterY >= uTop && ballCenterY <= uBottom) {
     
-    // O字母闪烁提示
-    if (!letterO.classList.contains('collecting')) {
-      letterO.style.transform = `scale(${1 + (attractRange - distance) / attractRange * 0.2})`;
-    }
-  } else {
-    letterO.style.transform = '';
-  }
-  
-  // 球进入O的范围内
-  if (distance < oRadius + 20) {
     ball.eaten = true;
-    
-    // O字母收集动画
-    letterO.classList.add('collecting');
-    setTimeout(() => letterO.classList.remove('collecting'), 600);
+    ballsInU.push(ball);
     
     AudioManager.playSound('ballEaten');
     
-    // 球被吸入O的动画
-    ball.element.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-    ball.element.style.transform = 'scale(0) rotate(720deg)';
-    ball.element.style.left = `${oCenterX - 20}px`;
-    ball.element.style.top = `${oCenterY - 20}px`;
+    const offsetX = (Math.random() - 0.5) * 30;
+    const stackY = ballsInU.length * 15;
     
-    setTimeout(() => {
-      ball.element.remove();
-    }, 500);
+    ball.element.style.transition = 'all 0.3s ease';
+    ball.element.style.left = `${uRect.left + uRect.width / 2 - 20 + offsetX}px`;
+    ball.element.style.top = `${uRect.bottom - stackY - 40}px`;
     
-    // 更新分数
     currentScore += ball.score;
     totalBalls++;
     scoreDisplay.textContent = currentScore;
     ballCountDisplay.textContent = `(${totalBalls}/${TARGET_SCORE})`;
     
-    // 达到目标分数
-    if (currentScore >= TARGET_SCORE && totalBalls >= 8) {
-      setTimeout(() => {
-        giftBtn.classList.add('satisfied');
-        setTimeout(() => showLotteryOption(), 1000);
-      }, 500);
+    if (totalBalls >= TARGET_SCORE) {
+      setTimeout(tiltUAndShowReward, 1000);
     }
   }
 }
-function showLotteryOption() {
+
+function tiltUAndShowReward() {
   clearInterval(walkTimer);
   dot.style.display = "none";
   balls.forEach(b => b.element && b.element.remove());
   balls = [];
   
-  giftBtn.classList.add('gift-transform');
+  AudioManager.playSound('success');
+  
+  letterU.classList.add('tilting');
+  
+  setTimeout(() => {
+    ballsInU.forEach((ball, index) => {
+      setTimeout(() => {
+        const giftRect = giftBtn.getBoundingClientRect();
+        ball.element.style.transition = 'all 0.5s ease';
+        ball.element.style.left = `${giftRect.left + giftRect.width / 2 - 20}px`;
+        ball.element.style.top = `${giftRect.top + giftRect.height / 2 - 20}px`;
+        ball.element.style.transform = 'scale(0)';
+        
+        setTimeout(() => ball.element.remove(), 500);
+      }, index * 100);
+    });
+  }, 500);
+  
+  setTimeout(() => {
+    giftBtn.classList.add('satisfied');
+  }, 2000);
   
   setTimeout(() => {
     fireworkBurst(centerX, centerY);
     AudioManager.playSound('promoAppear');
-    
-    // 显示抽奖选项
-    setTimeout(() => showLottery(), 300);
-  }, 1500);
+  }, 2500);
+  
+  setTimeout(() => {
+    promoCard.classList.add('show');
+  }, 4000);
 }
 
 function fireworkBurst(x, y) {
@@ -3098,45 +1287,400 @@ function fireworkBurst(x, y) {
   animate();
 }
 
-promoCard.onclick = () => window.location.href = "https://example.com";
+promoCard.onclick = () => {
+  promoCard.classList.remove('show');
+  setTimeout(() => {
+    currentScore = 0;
+    totalBalls = 0;
+    ballsInU = [];
+    scoreDisplay.textContent = '0';
+    ballCountDisplay.textContent = '(0/20)';
+    letterU.classList.remove('tilting');
+    giftBtn.classList.remove('satisfied');
+    dot.style.display = 'flex';
+    dot.style.left = `${centerX - 30}px`;
+    dot.style.top = `${centerY - 30}px`;
+    startRandomWalk();
+  }, 300);
+};
+
+function playLogoSound() {
+  AudioManager.playSound('logoClick');
+}
+
+// ========== 音乐控制 ==========
+let isMusicMuted = false;
+
+function loadMusicState() {
+  try {
+    const saved = localStorage.getItem('musicMuted');
+    if (saved !== null) {
+      isMusicMuted = saved === 'true';
+      updateMusicButton();
+      if (isMusicMuted) {
+        AudioManager.stopBGM();
+      }
+    }
+  } catch (e) {
+    console.log('无法读取音乐状态');
+  }
+}
+
+function saveMusicState() {
+  try {
+    localStorage.setItem('musicMuted', isMusicMuted.toString());
+  } catch (e) {
+    console.log('无法保存音乐状态');
+  }
+}
+
+function updateMusicButton() {
+  const button = document.getElementById('musicToggle');
+  const icon = document.getElementById('musicIcon');
+  if (button && icon) {
+    if (isMusicMuted) {
+      icon.textContent = '🔇';
+      button.classList.add('muted');
+      button.title = '点击开启音乐';
+    } else {
+      icon.textContent = '🔊';
+      button.classList.remove('muted');
+      button.title = '点击关闭音乐';
+    }
+  }
+}
+
+function toggleMusic() {
+  isMusicMuted = !isMusicMuted;
+  
+  if (isMusicMuted) {
+    AudioManager.stopBGM();
+  } else {
+    AudioManager.playBGM();
+  }
+  
+  updateMusicButton();
+  saveMusicState();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  loadMusicState();
+});
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    AudioManager.stopAllAudio();
+  }
+});
+
+function switchLanguage(lang) {
+  currentLanguage = lang;
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+  AudioManager.loadVoices(lang);
+  updateTexts();
+  localStorage.setItem('preferredLanguage', lang);
+  updateClock();
+}
+
+function updateTexts() {
+  if (typeof ASSETS === 'undefined' || !ASSETS.languages || !ASSETS.languages[currentLanguage]) {
+    return;
+  }
+  
+  const texts = ASSETS.languages[currentLanguage];
+  
+  document.getElementById('btnBook').textContent = texts.buttonBook;
+  document.getElementById('btnGiftFull').textContent = texts.buttonGift;
+  document.getElementById('btnServices').textContent = texts.buttonServices;
+  document.getElementById('btnMember').textContent = texts.buttonMember;
+}
+
+function updateClock() {
+  const now = new Date();
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const seconds = String(now.getSeconds()).padStart(2, '0');
+  const timeString = `${hours}:${minutes}:${seconds}`;
+  
+  const panelClockTimeInline = document.getElementById('panelClockTimeInline');
+  const panelClockDateInline = document.getElementById('panelClockDateInline');
+  
+  if (panelClockTimeInline && panelClockDateInline) {
+    panelClockTimeInline.textContent = timeString;
+    
+    const month = now.getMonth() + 1;
+    const date = now.getDate();
+    const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    const weekday = weekdays[now.getDay()];
+    
+    if (currentLanguage === 'zh') {
+      panelClockDateInline.textContent = `${month}月${date}日 ${weekday}`;
+    } else if (currentLanguage === 'en') {
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const weekdaysEn = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      panelClockDateInline.textContent = `${monthNames[month-1]} ${date}, ${weekdaysEn[now.getDay()]}`;
+    } else if (currentLanguage === 'es') {
+      const monthNamesEs = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+      const weekdaysEs = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+      panelClockDateInline.textContent = `${date} ${monthNamesEs[month-1]}, ${weekdaysEs[now.getDay()]}`;
+    }
+  }
+}
+
+setInterval(updateClock, 1000);
+
+const panelContents = {
+  zh: {
+    book: {
+      title: '📅 在线预约',
+      sections: [
+        {
+          title: '💅 MANICURE',
+          features: [
+            'Regular Mani---------$12',
+            'Color Gel Mani-------$30',
+            'Powder Gel Mani------$45'
+          ]
+        },
+        {
+          title: '🦶 PEDICURE',
+          features: [
+            'Regular Pedi---------$22',
+            'Color Gel Pedi-------$40'
+          ]
+        },
+        {
+          title: '📞 联系方式',
+          features: [
+            '📱 (516) 371-4557',
+            '💬 (917) 330-5781',
+            '📍 97 Doughty Blvd Inwood NY 11096',
+            '⏰ 周二至周日 9:58-18:58'
+          ]
+        }
+      ],
+      action: '立即预约'
+    },
+    services: {
+      title: '💅 服务项目',
+      sections: [{
+        title: '专业服务',
+        features: ['查看完整价目表']
+      }],
+      action: '了解详情'
+    },
+    member: {
+      title: '👑 会员中心',
+      sections: [{
+        title: '会员福利',
+        features: ['享受专属优惠']
+      }],
+      action: '加入会员'
+    }
+  },
+  en: {
+    book: {
+      title: '📅 Book',
+      sections: [
+        {
+          title: '💅 MANICURE',
+          features: [
+            'Regular Mani---------$12',
+            'Color Gel Mani-------$30',
+            'Powder Gel Mani------$45'
+          ]
+        },
+        {
+          title: '🦶 PEDICURE',
+          features: [
+            'Regular Pedi---------$22',
+            'Color Gel Pedi-------$40'
+          ]
+        },
+        {
+          title: '📞 Contact',
+          features: [
+            '📱 (516) 371-4557',
+            '💬 (917) 330-5781',
+            '📍 97 Doughty Blvd Inwood NY 11096',
+            '⏰ Tue-Sun 9:58-18:58'
+          ]
+        }
+      ],
+      action: 'Book Now'
+    },
+    services: {
+      title: '💅 Services',
+      sections: [{
+        title: 'Professional',
+        features: ['View menu']
+      }],
+      action: 'Learn More'
+    },
+    member: {
+      title: '👑 Membership',
+      sections: [{
+        title: 'Benefits',
+        features: ['Exclusive discounts']
+      }],
+      action: 'Join'
+    }
+  },
+  es: {
+    book: {
+      title: '📅 Reservar',
+      sections: [
+        {
+          title: '💅 MANICURE',
+          features: [
+            'Regular Mani---------$12',
+            'Color Gel Mani-------$30',
+            'Powder Gel Mani------$45'
+          ]
+        },
+        {
+          title: '🦶 PEDICURE',
+          features: [
+            'Regular Pedi---------$22',
+            'Color Gel Pedi-------$40'
+          ]
+        },
+        {
+          title: '📞 Contacto',
+          features: [
+            '📱 (516) 371-4557',
+            '💬 (917) 330-5781',
+            '📍 97 Doughty Blvd Inwood NY 11096',
+            '⏰ Mar-Dom 9:58-18:58'
+          ]
+        }
+      ],
+      action: 'Reservar'
+    },
+    services: {
+      title: '💅 Servicios',
+      sections: [{
+        title: 'Profesional',
+        features: ['Ver menú']
+      }],
+      action: 'Más'
+    },
+    member: {
+      title: '👑 Membresía',
+      sections: [{
+        title: 'Beneficios',
+        features: ['Descuentos']
+      }],
+      action: 'Únete'
+    }
+  }
+};
+
+function openFunctionPanel(type) {
+  const panel = document.getElementById('functionPanel');
+  const overlay = document.getElementById('panelOverlay');
+  const title = document.getElementById('panelTitle');
+  const contentArea = document.getElementById('panelContentArea');
+  
+  AudioManager.playSound('panelSlide');
+  
+  const content = panelContents[currentLanguage][type];
+  
+  if (type === 'book') {
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const month = now.getMonth() + 1;
+    const date = now.getDate();
+    const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    const weekday = weekdays[now.getDay()];
+    
+    const titleText = content.title;
+    const timeStr = `${hours}:${minutes}:${seconds}`;
+    const dateStr = `${month}月${date}日 ${weekday}`;
+    
+    if (currentLanguage === 'zh') {
+      title.innerHTML = `
+        <div class="panel-title-container">
+          <div class="panel-title-text">${titleText}</div>
+          <div class="panel-title-clock">
+            <div class="panel-clock-time-inline" id="panelClockTimeInline">${timeStr}</div>
+            <div class="panel-clock-date-inline" id="panelClockDateInline">${dateStr}</div>
+          </div>
+        </div>
+      `;
+    } else if (currentLanguage === 'en') {
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      const weekdaysEn = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      title.innerHTML = `
+        <div class="panel-title-container">
+          <div class="panel-title-text">${titleText}</div>
+          <div class="panel-title-clock">
+            <div class="panel-clock-time-inline" id="panelClockTimeInline">${timeStr}</div>
+            <div class="panel-clock-date-inline" id="panelClockDateInline">${monthNames[month-1]} ${date}, ${weekdaysEn[now.getDay()]}</div>
+          </div>
+        </div>
+      `;
+    } else {
+      const monthNamesEs = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+      const weekdaysEs = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+      title.innerHTML = `
+        <div class="panel-title-container">
+          <div class="panel-title-text">${titleText}</div>
+          <div class="panel-title-clock">
+            <div class="panel-clock-time-inline" id="panelClockTimeInline">${timeStr}</div>
+            <div class="panel-clock-date-inline" id="panelClockDateInline">${date} ${monthNamesEs[month-1]}, ${weekdaysEs[now.getDay()]}</div>
+          </div>
+        </div>
+      `;
+    }
+  } else {
+    title.textContent = content.title;
+  }
+  
+  let html = '';
+  content.sections.forEach(section => {
+    html += `<div class="content-section">`;
+    html += `<div class="section-title">${section.title}</div>`;
+    if (section.text) html += `<div class="section-text">${section.text}</div>`;
+    if (section.features) {
+      html += `<ul class="feature-list">`;
+      section.features.forEach(f => {
+        html += `<li class="feature-item">${f}</li>`;
+      });
+      html += `</ul>`;
+    }
+    html += `</div>`;
+  });
+  
+  html += `<button class="action-button">${content.action}</button>`;
+  contentArea.innerHTML = html;
+  
+  overlay.classList.add('show');
+  panel.classList.add('show');
+  
+  if (type === 'book') {
+    updateClock();
+  }
+}
+
+function closeFunctionPanel() {
+  document.getElementById('functionPanel').classList.remove('show');
+  document.getElementById('panelOverlay').classList.remove('show');
+}
+
+function clickButton(type) {
+  AudioManager.playVoice('button' + type.charAt(0).toUpperCase() + type.slice(1));
+  setTimeout(() => openFunctionPanel(type), 100);
+}
 
 window.addEventListener('resize', () => {
   canvas.width = innerWidth;
   canvas.height = innerHeight;
 });
 </script>
-
-<!-- PWA Service Worker 注册 -->
-<script>
-// 注册Service Worker
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('service-worker.js')
-      .then(registration => {
-        console.log('Service Worker 注册成功:', registration.scope);
-      })
-      .catch(error => {
-        console.log('Service Worker 注册失败:', error);
-      });
-  });
-}
-
-// 检测是否可以安装PWA
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  // 阻止默认提示
-  e.preventDefault();
-  // 保存事件，以便稍后触发
-  deferredPrompt = e;
-  console.log('PWA可以安装');
-});
-
-// 监听安装成功
-window.addEventListener('appinstalled', () => {
-  console.log('PWA安装成功！');
-  deferredPrompt = null;
-});
-</script>
-
 </body>
 </html>
