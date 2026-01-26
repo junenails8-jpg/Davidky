@@ -1338,7 +1338,7 @@ html, body {
   <div class="ball-count" id="ballCount">(0/20)</div>
 </div>
 
-<div id="logo" onclick="playLogoSound()">NEW PROUD NAILS</div>
+<div id="logo" onclick="playLogoSound()">NEW PR<span class="letter-o" id="letterO">O</span>UD NAILS</div>
 
 <div class="light-dot">
   <div class="face">
@@ -2890,10 +2890,10 @@ function dropBall() {
 }
 
 function animateBall(ball) {
-  const gravity = 0.5;
-  const friction = 0.96;  // 减小摩擦力，让球更容易滚动
-  const tiltForce = 3.0;  // 增强倾斜力度
-  const bounce = 0.6;
+  const gravity = 0.6;
+  const friction = 0.985;  // 减小摩擦力，让球更容易滚动
+  const tiltForce = 4.5;  // 增强倾斜力度
+  const bounce = 0.5;
   
   function update() {
     if (ball.eaten) return;
@@ -2906,16 +2906,47 @@ function animateBall(ball) {
     ball.x += ball.vx;
     ball.y += ball.vy;
     
-    if (ball.y >= groundY) {
+    function animateBall(ball) {
+  const gravity = 0.6;
+  const friction = 0.985;
+  const tiltForce = 4.5;
+  const bounce = 0.5;
+  
+  function update() {
+    if (ball.eaten) return;
+    
+    ball.vy += gravity;
+    ball.vx += tiltX * tiltForce;
+    ball.vy += tiltY * tiltForce * 1.0;
+    ball.vx *= friction;
+    ball.vy *= friction;
+    ball.x += ball.vx;
+    ball.y += ball.vy;
+    
+if (ball.y >= groundY) {
       ball.y = groundY;
       ball.vy = -ball.vy * bounce;
-      if (Math.abs(ball.vy) < 0.5) ball.vy = 0;
       
-      if (!ball.hasPlayedSound && Math.abs(ball.vy) > 1) {
+      // 落地时减少水平速度，更真实
+      ball.vx *= 0.85;
+      
+      // 速度很小时完全停止弹跳
+      if (Math.abs(ball.vy) < 1) {
+        ball.vy = 0;
+      }
+      
+      if (!ball.hasPlayedSound && Math.abs(ball.vy) > 0.5) {
         AudioManager.playSound('ballDrop');
         ball.hasPlayedSound = true;
       }
+    }                            // ← 结束（和if对齐，缩进4个空格）
+    if (ball.x < 0) {              // ← 下面是其他代码，不要动
+      ball.x = 0;
+      ball.vx = -ball.vx * 0.5;
     }
+    // ... 后面还有代码
+  }
+}
     
     if (ball.x < 0) {
       ball.x = 0;
@@ -2939,45 +2970,61 @@ function animateBall(ball) {
 function checkGiftCollision(ball) {
   if (ball.eaten) return;
   
-  const giftRect = giftBtn.getBoundingClientRect();
+  // 获取字母O的位置
+  const letterO = document.getElementById('letterO');
+  if (!letterO) return;
+  
+  const oRect = letterO.getBoundingClientRect();
   const ballRect = ball.element.getBoundingClientRect();
   
-  const hungryDistance = 100;
+  // 计算球和O的中心距离
   const ballCenterX = ballRect.left + ballRect.width / 2;
   const ballCenterY = ballRect.top + ballRect.height / 2;
-  const giftCenterX = giftRect.left + giftRect.width / 2;
-  const giftCenterY = giftRect.top + giftRect.height / 2;
-  const distance = Math.hypot(ballCenterX - giftCenterX, ballCenterY - giftCenterY);
+  const oCenterX = oRect.left + oRect.width / 2;
+  const oCenterY = oRect.top + oRect.height / 2;
+  const distance = Math.hypot(ballCenterX - oCenterX, ballCenterY - oCenterY);
   
-  if (distance < hungryDistance && !giftBtn.classList.contains('hungry') && !giftBtn.classList.contains('eating')) {
-    giftBtn.classList.add('hungry');
-  } else if (distance >= hungryDistance) {
-    giftBtn.classList.remove('hungry');
+  // O的半径（字母大小的一半）
+  const oRadius = Math.min(oRect.width, oRect.height) / 2;
+  
+  // 吸引范围（O半径的3倍）
+  const attractRange = oRadius * 3;
+  
+  // 在吸引范围内，施加吸引力
+  if (distance < attractRange && distance > oRadius) {
+    const attractStrength = 0.15;
+    const dx = oCenterX - ballCenterX;
+    const dy = oCenterY - ballCenterY;
+    ball.vx += (dx / distance) * attractStrength;
+    ball.vy += (dy / distance) * attractStrength;
+    
+    // O字母闪烁提示
+    if (!letterO.classList.contains('collecting')) {
+      letterO.style.transform = `scale(${1 + (attractRange - distance) / attractRange * 0.2})`;
+    }
+  } else {
+    letterO.style.transform = '';
   }
   
-  const overlap = !(
-    ballRect.right < giftRect.left ||
-    ballRect.left > giftRect.right ||
-    ballRect.bottom < giftRect.top ||
-    ballRect.top > giftRect.bottom
-  );
-  
-  if (overlap) {
+  // 球进入O的范围内
+  if (distance < oRadius + 20) {
     ball.eaten = true;
-    giftBtn.classList.remove('hungry');
-    giftBtn.classList.add('eating');
+    
+    // O字母收集动画
+    letterO.classList.add('collecting');
+    setTimeout(() => letterO.classList.remove('collecting'), 600);
     
     AudioManager.playSound('ballEaten');
     
-    ball.element.style.transition = 'all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+    // 球被吸入O的动画
+    ball.element.style.transition = 'all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
     ball.element.style.transform = 'scale(0) rotate(720deg)';
-    ball.element.style.left = `${giftRect.left + giftRect.width / 2 - 20}px`;
-    ball.element.style.top = `${giftRect.top + giftRect.height / 2 - 20}px`;
+    ball.element.style.left = `${oCenterX - 20}px`;
+    ball.element.style.top = `${oCenterY - 20}px`;
     
     setTimeout(() => {
       ball.element.remove();
-      giftBtn.classList.remove('eating');
-    }, 400);
+    }, 500);
     
     // 更新分数
     currentScore += ball.score;
@@ -2994,7 +3041,6 @@ function checkGiftCollision(ball) {
     }
   }
 }
-
 function showLotteryOption() {
   clearInterval(walkTimer);
   dot.style.display = "none";
