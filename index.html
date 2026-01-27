@@ -1247,8 +1247,8 @@ function dropBall() {
 
 function animateBall(ball) {
   const gravity = 0.6;          // 重力保持不变
-  const friction = 0.95;        // 降低摩擦力（原0.985）让球更容易滚动
-  const tiltForce = 12;         // 大幅增加倾斜力（原4.5）提高灵敏度
+  const friction = 0.92;        // 进一步降低摩擦（原0.985→0.95→0.92）
+  const tiltForce = 20;         // 超大倾斜力（原4.5→12→20）极致灵敏！
   const bounce = 0.5;           // 弹跳保持不变
   
   function update() {
