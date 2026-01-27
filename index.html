@@ -1634,19 +1634,130 @@ const panelContents = {
     },
     services: {
       title: '💅 服务项目',
-      sections: [{
-        title: '专业服务',
-        features: ['查看完整价目表']
-      }],
-      action: '了解详情'
+      sections: [
+        {
+          title: '💅 美甲护理',
+          collapsible: true,
+          items: [
+            { name: '经典美甲', price: '$12起' },
+            { name: '凝胶美甲', price: '$30起' },
+            { name: '粉雕美甲', price: '$45起' },
+            { name: '美甲修复', price: '$8起' },
+            { name: '指甲抛光', price: '$5' }
+          ]
+        },
+        {
+          title: '🦶 美足护理',
+          collapsible: true,
+          items: [
+            { name: '经典美足', price: '$22起' },
+            { name: '凝胶美足', price: '$40起' },
+            { name: '去死皮护理', price: '+$10' },
+            { name: '足部按摩', price: '+$15' },
+            { name: '脚跟修复', price: '+$8' }
+          ]
+        },
+        {
+          title: '🎨 指甲艺术',
+          collapsible: true,
+          items: [
+            { name: '法式美甲', price: '+$10' },
+            { name: '渐变美甲', price: '+$15' },
+            { name: '彩绘设计', price: '+$20' },
+            { name: '水晶装饰', price: '+$5起' },
+            { name: '贴钻服务', price: '+$3起' }
+          ]
+        },
+        {
+          title: '✨ 特殊护理',
+          collapsible: true,
+          items: [
+            { name: '石蜡蜡疗', price: '+$12' },
+            { name: '热石按摩', price: '+$25' },
+            { name: '深层保湿', price: '+$15' },
+            { name: 'Jelly Spa', price: '+$20' },
+            { name: '香薰护理', price: '+$10' }
+          ]
+        },
+        {
+          title: '💎 甲片服务',
+          collapsible: true,
+          items: [
+            { name: '亚克力甲片', price: '$42起' },
+            { name: '玻璃纤维甲', price: '$50起' },
+            { name: 'UV凝胶甲', price: '$65起' },
+            { name: '甲片填充', price: '$32起' },
+            { name: '甲片卸除', price: '$15' }
+          ]
+        },
+        {
+          title: '🌟 增值服务',
+          collapsible: true,
+          items: [
+            { name: '手部按摩', price: '$8' },
+            { name: '足部去角质', price: '$10' },
+            { name: '指甲修护精华', price: '$12' },
+            { name: '延长护理时间', price: '$20/15分钟' },
+            { name: 'VIP包间', price: '+$15' }
+          ]
+        },
+        {
+          title: '🎁 套餐推荐',
+          collapsible: false,
+          features: [
+            '💖 情侣套餐 - 美甲+美足 $80',
+            '👭 闺蜜套餐 - 2人美甲 $50',
+            '🌸 豪华SPA - 全套护理 $120',
+            '⭐ 月度会员 - 享8折优惠'
+          ]
+        }
+      ],
+      action: '预约服务'
     },
     member: {
       title: '👑 会员中心',
-      sections: [{
-        title: '会员福利',
-        features: ['享受专属优惠']
-      }],
-      action: '加入会员'
+      sections: [
+        {
+          title: '💎 会员等级',
+          collapsible: true,
+          items: [
+            { name: '银卡会员', price: '消费满$200' },
+            { name: '金卡会员', price: '消费满$500' },
+            { name: 'VIP会员', price: '消费满$1000' }
+          ]
+        },
+        {
+          title: '🎁 会员福利',
+          collapsible: true,
+          items: [
+            { name: '生日特惠', price: '5折优惠' },
+            { name: '积分返现', price: '消费1元=1积分' },
+            { name: '优先预约', price: '专属时段' },
+            { name: '免费升级', price: '服务升级' },
+            { name: '推荐奖励', price: '每人$10' }
+          ]
+        },
+        {
+          title: '⭐ 会员折扣',
+          collapsible: true,
+          items: [
+            { name: '银卡会员', price: '9折优惠' },
+            { name: '金卡会员', price: '8.5折优惠' },
+            { name: 'VIP会员', price: '8折优惠' }
+          ]
+        },
+        {
+          title: '🎉 特殊活动',
+          collapsible: false,
+          features: [
+            '🌸 每月第一周 - 新会员享8折',
+            '💝 节日活动 - 额外优惠券',
+            '🎊 周年庆典 - 抽奖活动',
+            '👯 推荐好友 - 双方获赠$10'
+          ]
+        }
+      ],
+      action: '立即注册'
     }
   },
   en: {
@@ -1722,19 +1833,130 @@ const panelContents = {
     },
     services: {
       title: '💅 Services',
-      sections: [{
-        title: 'Professional',
-        features: ['View menu']
-      }],
-      action: 'Learn More'
+      sections: [
+        {
+          title: '💅 Manicure Care',
+          collapsible: true,
+          items: [
+            { name: 'Classic Manicure', price: 'From $12' },
+            { name: 'Gel Manicure', price: 'From $30' },
+            { name: 'Powder Gel Manicure', price: 'From $45' },
+            { name: 'Nail Repair', price: 'From $8' },
+            { name: 'Nail Buffing', price: '$5' }
+          ]
+        },
+        {
+          title: '🦶 Pedicure Care',
+          collapsible: true,
+          items: [
+            { name: 'Classic Pedicure', price: 'From $22' },
+            { name: 'Gel Pedicure', price: 'From $40' },
+            { name: 'Callus Removal', price: '+$10' },
+            { name: 'Foot Massage', price: '+$15' },
+            { name: 'Heel Treatment', price: '+$8' }
+          ]
+        },
+        {
+          title: '🎨 Nail Art',
+          collapsible: true,
+          items: [
+            { name: 'French Tips', price: '+$10' },
+            { name: 'Ombre Design', price: '+$15' },
+            { name: 'Hand Painting', price: '+$20' },
+            { name: 'Crystal Decoration', price: 'From +$5' },
+            { name: 'Rhinestones', price: 'From +$3' }
+          ]
+        },
+        {
+          title: '✨ Special Treatments',
+          collapsible: true,
+          items: [
+            { name: 'Paraffin Wax', price: '+$12' },
+            { name: 'Hot Stone Massage', price: '+$25' },
+            { name: 'Deep Moisturizing', price: '+$15' },
+            { name: 'Jelly Spa', price: '+$20' },
+            { name: 'Aromatherapy', price: '+$10' }
+          ]
+        },
+        {
+          title: '💎 Nail Extensions',
+          collapsible: true,
+          items: [
+            { name: 'Acrylic Full Set', price: 'From $42' },
+            { name: 'Fiberglass', price: 'From $50' },
+            { name: 'UV Gel Full Set', price: 'From $65' },
+            { name: 'Fill-in Service', price: 'From $32' },
+            { name: 'Removal', price: '$15' }
+          ]
+        },
+        {
+          title: '🌟 Add-On Services',
+          collapsible: true,
+          items: [
+            { name: 'Hand Massage', price: '$8' },
+            { name: 'Foot Scrub', price: '$10' },
+            { name: 'Nail Treatment', price: '$12' },
+            { name: 'Extended Time', price: '$20/15min' },
+            { name: 'VIP Room', price: '+$15' }
+          ]
+        },
+        {
+          title: '🎁 Package Deals',
+          collapsible: false,
+          features: [
+            '💖 Couple Package - Mani+Pedi $80',
+            '👭 Friends Package - 2 Manicures $50',
+            '🌸 Luxury SPA - Full Treatment $120',
+            '⭐ Monthly Member - 20% Off'
+          ]
+        }
+      ],
+      action: 'Book Now'
     },
     member: {
       title: '👑 Membership',
-      sections: [{
-        title: 'Benefits',
-        features: ['Exclusive discounts']
-      }],
-      action: 'Join'
+      sections: [
+        {
+          title: '💎 Member Tiers',
+          collapsible: true,
+          items: [
+            { name: 'Silver Member', price: 'Spend $200+' },
+            { name: 'Gold Member', price: 'Spend $500+' },
+            { name: 'VIP Member', price: 'Spend $1000+' }
+          ]
+        },
+        {
+          title: '🎁 Member Benefits',
+          collapsible: true,
+          items: [
+            { name: 'Birthday Special', price: '50% Off' },
+            { name: 'Points Rewards', price: '$1 = 1 Point' },
+            { name: 'Priority Booking', price: 'Exclusive Slots' },
+            { name: 'Free Upgrade', price: 'Service Upgrade' },
+            { name: 'Referral Bonus', price: '$10 Each' }
+          ]
+        },
+        {
+          title: '⭐ Member Discounts',
+          collapsible: true,
+          items: [
+            { name: 'Silver Member', price: '10% Off' },
+            { name: 'Gold Member', price: '15% Off' },
+            { name: 'VIP Member', price: '20% Off' }
+          ]
+        },
+        {
+          title: '🎉 Special Events',
+          collapsible: false,
+          features: [
+            '🌸 First Week Monthly - 20% Off New Members',
+            '💝 Holiday Events - Extra Coupons',
+            '🎊 Anniversary - Lucky Draw',
+            '👯 Refer Friends - Both Get $10'
+          ]
+        }
+      ],
+      action: 'Join Now'
     }
   },
   es: {
@@ -1810,19 +2032,130 @@ const panelContents = {
     },
     services: {
       title: '💅 Servicios',
-      sections: [{
-        title: 'Profesional',
-        features: ['Ver menú']
-      }],
-      action: 'Más'
+      sections: [
+        {
+          title: '💅 Cuidado de Manos',
+          collapsible: true,
+          items: [
+            { name: 'Manicure Clásico', price: 'Desde $12' },
+            { name: 'Manicure en Gel', price: 'Desde $30' },
+            { name: 'Manicure en Polvo', price: 'Desde $45' },
+            { name: 'Reparación de Uñas', price: 'Desde $8' },
+            { name: 'Pulido de Uñas', price: '$5' }
+          ]
+        },
+        {
+          title: '🦶 Cuidado de Pies',
+          collapsible: true,
+          items: [
+            { name: 'Pedicure Clásico', price: 'Desde $22' },
+            { name: 'Pedicure en Gel', price: 'Desde $40' },
+            { name: 'Eliminación de Callos', price: '+$10' },
+            { name: 'Masaje de Pies', price: '+$15' },
+            { name: 'Tratamiento de Talones', price: '+$8' }
+          ]
+        },
+        {
+          title: '🎨 Arte de Uñas',
+          collapsible: true,
+          items: [
+            { name: 'Francesa', price: '+$10' },
+            { name: 'Degradado', price: '+$15' },
+            { name: 'Diseño Pintado', price: '+$20' },
+            { name: 'Decoración Cristal', price: 'Desde +$5' },
+            { name: 'Pedrería', price: 'Desde +$3' }
+          ]
+        },
+        {
+          title: '✨ Tratamientos Especiales',
+          collapsible: true,
+          items: [
+            { name: 'Cera de Parafina', price: '+$12' },
+            { name: 'Masaje Piedras', price: '+$25' },
+            { name: 'Hidratación Profunda', price: '+$15' },
+            { name: 'Jelly Spa', price: '+$20' },
+            { name: 'Aromaterapia', price: '+$10' }
+          ]
+        },
+        {
+          title: '💎 Extensiones',
+          collapsible: true,
+          items: [
+            { name: 'Acrílico Completo', price: 'Desde $42' },
+            { name: 'Fibra de Vidrio', price: 'Desde $50' },
+            { name: 'UV Gel Completo', price: 'Desde $65' },
+            { name: 'Relleno', price: 'Desde $32' },
+            { name: 'Remoción', price: '$15' }
+          ]
+        },
+        {
+          title: '🌟 Servicios Adicionales',
+          collapsible: true,
+          items: [
+            { name: 'Masaje de Manos', price: '$8' },
+            { name: 'Exfoliación de Pies', price: '$10' },
+            { name: 'Tratamiento de Uñas', price: '$12' },
+            { name: 'Tiempo Extendido', price: '$20/15min' },
+            { name: 'Sala VIP', price: '+$15' }
+          ]
+        },
+        {
+          title: '🎁 Paquetes',
+          collapsible: false,
+          features: [
+            '💖 Paquete Pareja - Mani+Pedi $80',
+            '👭 Paquete Amigas - 2 Manicures $50',
+            '🌸 SPA de Lujo - Completo $120',
+            '⭐ Miembro Mensual - 20% Descuento'
+          ]
+        }
+      ],
+      action: 'Reservar'
     },
     member: {
       title: '👑 Membresía',
-      sections: [{
-        title: 'Beneficios',
-        features: ['Descuentos']
-      }],
-      action: 'Únete'
+      sections: [
+        {
+          title: '💎 Niveles',
+          collapsible: true,
+          items: [
+            { name: 'Miembro Plata', price: 'Gasto $200+' },
+            { name: 'Miembro Oro', price: 'Gasto $500+' },
+            { name: 'Miembro VIP', price: 'Gasto $1000+' }
+          ]
+        },
+        {
+          title: '🎁 Beneficios',
+          collapsible: true,
+          items: [
+            { name: 'Cumpleaños', price: '50% Descuento' },
+            { name: 'Puntos', price: '$1 = 1 Punto' },
+            { name: 'Reserva Prioritaria', price: 'Horarios VIP' },
+            { name: 'Mejora Gratis', price: 'Upgrade Servicio' },
+            { name: 'Referir Amigos', price: '$10 c/u' }
+          ]
+        },
+        {
+          title: '⭐ Descuentos',
+          collapsible: true,
+          items: [
+            { name: 'Miembro Plata', price: '10% Descuento' },
+            { name: 'Miembro Oro', price: '15% Descuento' },
+            { name: 'Miembro VIP', price: '20% Descuento' }
+          ]
+        },
+        {
+          title: '🎉 Eventos',
+          collapsible: false,
+          features: [
+            '🌸 Primera Semana - 20% Nuevos Miembros',
+            '💝 Días Festivos - Cupones Extra',
+            '🎊 Aniversario - Sorteo',
+            '👯 Referir Amigos - $10 para Ambos'
+          ]
+        }
+      ],
+      action: 'Registrarse'
     }
   }
 };
