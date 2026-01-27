@@ -1033,37 +1033,35 @@ window.addEventListener('load', () => {
     });
   }
   
-  // 鼠标控制（电脑）- 移动鼠标控制球的方向
-  let lastMouseX = centerX;
-  let lastMouseY = centerY;
-  
+  // 鼠标控制（电脑）- 鼠标位置控制球的滚动方向
   document.addEventListener('mousemove', (e) => {
-    const deltaX = (e.clientX - lastMouseX) / window.innerWidth;
-    const deltaY = (e.clientY - lastMouseY) / window.innerHeight;
+    // 计算鼠标相对于屏幕中心的位置
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
     
-    // 根据鼠标移动方向设置倾斜
-    tiltX = Math.max(-1, Math.min(1, deltaX * 3));
-    tiltY = Math.max(-1, Math.min(1, deltaY * 3));
+    // 归一化到 -1 到 1 的范围，并放大灵敏度
+    tiltX = ((e.clientX - centerX) / centerX) * 1.5;
+    tiltY = ((e.clientY - centerY) / centerY) * 1.5;
     
-    lastMouseX = e.clientX;
-    lastMouseY = e.clientY;
+    // 限制范围
+    tiltX = Math.max(-1.5, Math.min(1.5, tiltX));
+    tiltY = Math.max(-1.5, Math.min(1.5, tiltY));
   });
   
-  // 触摸控制（触屏设备备用）
-  let lastTouchX = centerX;
-  let lastTouchY = centerY;
-  
+  // 触摸控制（触屏设备）
   document.addEventListener('touchmove', (e) => {
     if (e.touches.length > 0) {
       const touch = e.touches[0];
-      const deltaX = (touch.clientX - lastTouchX) / window.innerWidth;
-      const deltaY = (touch.clientY - lastTouchY) / window.innerHeight;
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
       
-      tiltX = Math.max(-1, Math.min(1, deltaX * 3));
-      tiltY = Math.max(-1, Math.min(1, deltaY * 3));
+      // 归一化到 -1 到 1 的范围
+      tiltX = ((touch.clientX - centerX) / centerX) * 1.5;
+      tiltY = ((touch.clientY - centerY) / centerY) * 1.5;
       
-      lastTouchX = touch.clientX;
-      lastTouchY = touch.clientY;
+      // 限制范围
+      tiltX = Math.max(-1.5, Math.min(1.5, tiltX));
+      tiltY = Math.max(-1.5, Math.min(1.5, tiltY));
     }
   }, { passive: true });
 });
@@ -1248,17 +1246,17 @@ function dropBall() {
 }
 
 function animateBall(ball) {
-  const gravity = 0.6;
-  const friction = 0.985;
-  const tiltForce = 4.5;
-  const bounce = 0.5;
+  const gravity = 0.6;          // 重力保持不变
+  const friction = 0.95;        // 降低摩擦力（原0.985）让球更容易滚动
+  const tiltForce = 12;         // 大幅增加倾斜力（原4.5）提高灵敏度
+  const bounce = 0.5;           // 弹跳保持不变
   
   function update() {
     if (ball.eaten) return;
     
     ball.vy += gravity;
-    ball.vx += tiltX * tiltForce;
-    ball.vy += tiltY * tiltForce;
+    ball.vx += tiltX * tiltForce;  // 左右控制
+    ball.vy += tiltY * tiltForce;  // 上下控制（现在有效了！）
     ball.vx *= friction;
     ball.vy *= friction;
     ball.x += ball.vx;
