@@ -34,7 +34,7 @@ const ASSETS = {
         ballEaten: 'sounds/ball-eaten.mp3',          // 球被吃掉
         
         // 面板音效
-        panelSlide: 'sounds/panel-slide.mp3',        // 侧滑面板
+        panelSlide: 'sounds/panel-slide.MP3',        // 侧滑面板
         
         // 其他音效
         promoAppear: 'sounds/promo-appear.mp3',      // 优惠卡出现

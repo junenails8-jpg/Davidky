@@ -1,17 +1,23 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <script>
-        document.write('<meta name="version" content="' + Date.now() + '">');
-    </script>
-    <meta charset="UTF-8">
-    <title>NEW PROUD NAILS</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
+<meta charset="UTF-8">
+<title>NEW PROUD NAILS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="NEW PROUD NAILS - 专业美甲服务，体验优雅与美丽">
 <meta name="theme-color" content="#667eea">
-<script src="config-sound.js"></script>
+<!-- 防止浏览器缓存 -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<script>
+// 动态加载外部脚本，添加时间戳防止缓存
+(function() {
+  var script = document.createElement('script');
+  script.src = 'config-sound.js?v=' + new Date().getTime();
+  document.head.appendChild(script);
+})();
+</script>
 <style>
 * {
   user-select: none;
@@ -424,6 +430,50 @@ html, body {
 @keyframes giftPulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.2); }
+}
+
+.glass-ball {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(200, 200, 255, 0.4));
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), inset -2px -2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 5;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 800;
+  transition: transform 0.3s ease;
+}
+
+.glass-ball.gold {
+  background: radial-gradient(circle at 30% 30%, #FFD700, #FFA500);
+  box-shadow: 0 8px 24px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.4);
+  animation: goldGlow 1s ease infinite;
+}
+
+@keyframes goldGlow {
+  0%, 100% { box-shadow: 0 8px 24px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 215, 0, 0.4); }
+  50% { box-shadow: 0 8px 24px rgba(255, 215, 0, 0.9), 0 0 40px rgba(255, 215, 0, 0.7); }
+}
+
+.glass-ball.silver {
+  background: radial-gradient(circle at 30% 30%, #E8E8E8, #C0C0C0);
+  box-shadow: 0 8px 24px rgba(192, 192, 192, 0.6), 0 0 20px rgba(192, 192, 192, 0.4);
+  animation: silverShine 1.5s ease infinite;
+}
+
+@keyframes silverShine {
+  0%, 100% { box-shadow: 0 8px 24px rgba(192, 192, 192, 0.6), 0 0 20px rgba(192, 192, 192, 0.4); }
+  50% { box-shadow: 0 8px 24px rgba(192, 192, 192, 0.8), 0 0 30px rgba(192, 192, 192, 0.6); }
+}
+
+.glass-ball.normal {
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.9), rgba(200, 200, 255, 0.4));
 }
 
 #promoCard {
@@ -984,47 +1034,21 @@ window.addEventListener('load', () => {
   document.addEventListener('click', startEverything, { once: true });
   document.addEventListener('touchstart', startEverything, { once: true });
   
-  // 陀螺仪（手机）
+  // ========== 陀螺仪控制（仅用于球的滚动） ==========
   if (window.DeviceOrientationEvent) {
     window.addEventListener('deviceorientation', (e) => {
       if (e.gamma !== null && e.beta !== null) {
-        tiltX = e.gamma / 90;
-        tiltY = (e.beta - 45) / 90;
+        // gamma: 左右倾斜 (-90 到 90)
+        // 向左倾斜为负值，向右倾斜为正值
+        tiltX = e.gamma / 90; // 归一化到 -1 到 1
+        
+        // beta: 前后倾斜 (-180 到 180)
+        // 手机平放时约为 0-10度
+        // 这里不影响球的垂直运动，只受重力影响
+        tiltY = 0;
       }
     });
   }
-  
-  // 鼠标控制（电脑）- 鼠标位置控制球的滚动方向
-  document.addEventListener('mousemove', (e) => {
-    // 计算鼠标相对于屏幕中心的位置
-    const centerX = window.innerWidth / 2;
-    const centerY = window.innerHeight / 2;
-    
-    // 归一化到 -1 到 1 的范围，并放大灵敏度
-    tiltX = ((e.clientX - centerX) / centerX) * 1.5;
-    tiltY = ((e.clientY - centerY) / centerY) * 1.5;
-    
-    // 限制范围
-    tiltX = Math.max(-1.5, Math.min(1.5, tiltX));
-    tiltY = Math.max(-1.5, Math.min(1.5, tiltY));
-  });
-  
-  // 触摸控制（触屏设备）
-  document.addEventListener('touchmove', (e) => {
-    if (e.touches.length > 0) {
-      const touch = e.touches[0];
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      
-      // 归一化到 -1 到 1 的范围
-      tiltX = ((touch.clientX - centerX) / centerX) * 1.5;
-      tiltY = ((touch.clientY - centerY) / centerY) * 1.5;
-      
-      // 限制范围
-      tiltX = Math.max(-1.5, Math.min(1.5, tiltX));
-      tiltY = Math.max(-1.5, Math.min(1.5, tiltY));
-    }
-  }, { passive: true });
 });
 
 function showSpeechBubble(text, duration = 3000) {
@@ -1050,12 +1074,14 @@ function updatePupils() {
   });
 }
 
+// 保留眼睛追踪的鼠标移动监听
 document.addEventListener("mousemove", e => {
   mouseX = e.clientX;
   mouseY = e.clientY;
   updatePupils();
 });
 
+// 保留眼睛追踪的触摸移动监听
 document.addEventListener("touchmove", e => {
   if (e.touches.length > 0) {
     mouseX = e.touches[0].clientX;
@@ -1157,43 +1183,99 @@ function handleDotClick(e) {
   } else if (clickCount === 2) {
     showScaredFace();
     AudioManager.playSound('spriteHit');
-    function animateBall(ball) {
-  const gravity = 0.6;
-  const bounce = 0.55;
-  const friction = 0.96;   // 只作用于水平速度
-  const tiltStrength = 1.2; // 陀螺仪控制力度（非常自然）
+    dropBall();
+    clickCount = 0;
+  }
+}
 
+dot.addEventListener("touchstart", handleDotClick, { passive: false });
+dot.addEventListener("click", handleDotClick);
+
+function dropBall() {
+  const rect = dot.getBoundingClientRect();
+  const ball = document.createElement("div");
+  ball.className = "glass-ball";
+  
+  const random = Math.random() * 100;
+  let ballType, ballScore;
+  
+  if (random < 5) {
+    ballType = 'gold';
+    ballScore = 3;
+    ball.textContent = '⭐';
+  } else if (random < 30) {
+    ballType = 'silver';
+    ballScore = 2;
+    ball.textContent = '✨';
+  } else {
+    ballType = 'normal';
+    ballScore = 1;
+  }
+  
+  ball.classList.add(ballType);
+  ball.style.left = `${rect.left + rect.width / 2 - 20}px`;
+  ball.style.top = `${rect.top + rect.height}px`;
+  document.body.appendChild(ball);
+  
+  const ballObj = {
+    element: ball,
+    x: rect.left + rect.width / 2 - 20,
+    y: rect.top + rect.height,
+    vx: (Math.random() - 0.5) * 2,
+    vy: 0,
+    eaten: false,
+    hasPlayedSound: false,
+    type: ballType,
+    score: ballScore
+  };
+  balls.push(ballObj);
+  animateBall(ballObj);
+}
+
+// ========== 修复后的球物理引擎 ==========
+function animateBall(ball) {
+  const gravity = 0.5;          // 重力加速度
+  const friction = 0.98;        // 空气阻力
+  const groundFriction = 0.95;  // 地面摩擦力
+  const tiltForce = 0.8;        // 倾斜力度（用于陀螺仪控制）
+  const bounce = 0.6;           // 弹跳系数
+  
   function update() {
     if (ball.eaten) return;
-
-    // 1. 重力（只影响 vy）
+    
+    // 重力始终向下
     ball.vy += gravity;
-
-    // 2. 陀螺仪控制（正确方向）
-    ball.vx += tiltX * tiltStrength;  // 左右
-    ball.vy += tiltY * 0.2;           // 前后轻微影响，不破坏重力
-
-    // 3. 摩擦（只影响水平速度）
+    
+    // 只有倾斜影响水平速度（陀螺仪控制）
+    ball.vx += tiltX * tiltForce;
+    
+    // 空气阻力
     ball.vx *= friction;
-
-    // 4. 位置更新
+    ball.vy *= friction;
+    
+    // 更新位置
     ball.x += ball.vx;
     ball.y += ball.vy;
-
-    // 5. 地面碰撞
+    
+    // 地面碰撞检测
     if (ball.y >= groundY) {
       ball.y = groundY;
       ball.vy = -ball.vy * bounce;
-
-      if (Math.abs(ball.vy) < 1) ball.vy = 0;
-
-      if (!ball.hasPlayedSound && Math.abs(ball.vy) > 2) {
+      ball.vx *= groundFriction;
+      
+      // 静止检测
+      if (Math.abs(ball.vy) < 1) {
+        ball.vy = 0;
+      }
+      
+      // 落地音效
+      if (!ball.hasPlayedSound && Math.abs(ball.vy) > 0.5) {
         AudioManager.playSound('ballDrop');
         ball.hasPlayedSound = true;
       }
     }
-
-    // 6. 左右边界
+    
+    // 左右边界检测
     if (ball.x < 0) {
       ball.x = 0;
       ball.vx = -ball.vx * 0.5;
@@ -1202,18 +1284,88 @@ function handleDotClick(e) {
       ball.x = innerWidth - 40;
       ball.vx = -ball.vx * 0.5;
     }
-
-    // 7. 更新 DOM
+    
+    // 更新DOM位置
     ball.element.style.left = `${ball.x}px`;
     ball.element.style.top = `${ball.y}px`;
-
+    
+    // 检测U字母收集
     checkUCollection(ball);
-
+    
+    // 继续动画
     if (!ball.eaten) requestAnimationFrame(update);
   }
-
   update();
-}  
+}
+
+// ========== 修复后的U字母收集检测 ==========
+function checkUCollection(ball) {
+  if (ball.eaten) return;
+  
+  const uRect = letterU.getBoundingClientRect();
+  const ballRect = ball.element.getBoundingClientRect();
+  
+  const ballCenterX = ballRect.left + ballRect.width / 2;
+  const ballCenterY = ballRect.top + ballRect.height / 2;
+  
+  // U字母的收集区域：顶部开口（上半部分）
+  const uLeft = uRect.left + uRect.width * 0.1;   // 左边界稍微收窄
+  const uRight = uRect.right - uRect.width * 0.1; // 右边界稍微收窄
+  const uTop = uRect.top;                          // 顶部（开口）
+  const uBottom = uRect.top + uRect.height * 0.6;  // 到U的中部
+  
+  // 检测球是否进入U的开口区域
+  if (ballCenterX >= uLeft && ballCenterX <= uRight &&
+      ballCenterY >= uTop && ballCenterY <= uBottom) {
+    
+    ball.eaten = true;
+    ballsInU.push(ball);
+    
+    AudioManager.playSound('ballEaten');
+    
+    // 球堆叠在U字母内部
+    const offsetX = (Math.random() - 0.5) * 30;
+    const stackY = ballsInU.length * 15;
+    
+    ball.element.style.transition = 'all 0.3s ease';
+    ball.element.style.left = `${uRect.left + uRect.width / 2 - 20 + offsetX}px`;
+    ball.element.style.top = `${uRect.bottom - stackY - 40}px`;
+    
+    currentScore += ball.score;
+    totalBalls++;
+    scoreDisplay.textContent = currentScore;
+    ballCountDisplay.textContent = `(${totalBalls}/${TARGET_SCORE})`;
+    
+    if (totalBalls >= TARGET_SCORE) {
+      setTimeout(tiltUAndShowReward, 1000);
+    }
+  }
+}
+
+function tiltUAndShowReward() {
+  clearInterval(walkTimer);
+  dot.style.display = "none";
+  balls.forEach(b => b.element && b.element.remove());
+  balls = [];
+  
+  AudioManager.playSound('success');
+  
+  letterU.classList.add('tilting');
+  
+  setTimeout(() => {
+    ballsInU.forEach((ball, index) => {
+      setTimeout(() => {
+        const giftRect = giftBtn.getBoundingClientRect();
+        ball.element.style.transition = 'all 0.5s ease';
+        ball.element.style.left = `${giftRect.left + giftRect.width / 2 - 20}px`;
+        ball.element.style.top = `${giftRect.top + giftRect.height / 2 - 20}px`;
+        ball.element.style.transform = 'scale(0)';
+        
+        setTimeout(() => ball.element.remove(), 500);
+      }, index * 100);
+    });
+  }, 500);
+  
   setTimeout(() => {
     giftBtn.classList.add('satisfied');
   }, 2000);
@@ -2157,6 +2309,11 @@ window.addEventListener('resize', () => {
   canvas.width = innerWidth;
   canvas.height = innerHeight;
 });
+
+// 显示页面版本信息（防缓存确认）
+console.log('%c页面已加载 🎨', 'color: #667eea; font-size: 20px; font-weight: bold;');
+console.log('%c版本时间: ' + new Date().toLocaleString(), 'color: #FF5B5F; font-size: 14px;');
+console.log('%c如果看到这条消息，说明页面已成功刷新，没有使用缓存！', 'color: #32CD32; font-size: 12px;');
 </script>
 </body>
 </html>
