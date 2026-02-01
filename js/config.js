@@ -11,8 +11,8 @@ const CONFIG = {
   TARGET_SCORE: 20,
   GRAVITY: 0.6,           // ← 改这里调整重力
   AIR_FRICTION: 0.995,    // ← 改这里调整空气阻力  
-  GROUND_FRICTION: 0.85,  // ← 改这里调整地面摩擦
-  TILT_FORCE: 1.2,        // ← 改这里调整手机倾斜灵敏度
+  GROUND_FRICTION: 0.94,  // ← 减少地面摩擦，让球能持续滚动
+  TILT_FORCE: 3.0,        // ← 增强倾斜力，手机倾斜时滚动更明显
   BOUNCE: 0.65,           // ← 改这里调整弹跳高度
   GROUND_Y_OFFSET: 150
 };

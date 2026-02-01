@@ -57,11 +57,12 @@ const Physics = {
     ball.style.top = `${y}px`;
     document.body.appendChild(ball);
     
+    // 球正常掉落（恢复原来的逻辑）
     const ballObj = {
       element: ball,
       x: x,
       y: y,
-      vx: (Math.random() - 0.5) * 3,
+      vx: (Math.random() - 0.5) * 2,  // 小的随机水平速度
       vy: 0,
       eaten: false,
       hasPlayedSound: false,
@@ -99,8 +100,10 @@ const Physics = {
         ball.vy = -ball.vy * CONFIG.BOUNCE;
         ball.vx *= CONFIG.GROUND_FRICTION;
         
-        if (Math.abs(ball.vy) < 0.5 && Math.abs(ball.vx) < 0.3) {
+        // 🏐 只在垂直速度很小时归零，保持水平滚动能力
+        if (Math.abs(ball.vy) < 0.2) {
           ball.vy = 0;
+          // 不限制水平速度，让倾斜力能持续作用
         }
         
         // 落地音效（通过事件通知）
