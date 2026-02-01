@@ -1,0 +1,390 @@
+/* ==================== NEW PROUD NAILS - 样式文件 ==================== */
+/* 【修改指南】
+   - 改颜色 → 修改 :root 变量
+   - 改按钮样式 → 搜索对应的 class
+   - 改布局 → 修改对应元素的定位
+   - 改动画 → 修改 @keyframes
+*/
+
+* {
+  user-select: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --accent-color: #FF5B5F;
+  --success-color: #32CD32;
+  --gold-color: #FFD700;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: var(--primary-gradient);
+  background-size: 110% 110%;
+  background-position: center center;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.4); border-radius: 3px; }
+
+/* Logo */
+#logo {
+  position: absolute;
+  top: 96px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  font-size: clamp(96px, 10vw, 128px);
+  font-weight: 800;
+  background: var(--accent-color);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  z-index: 2;
+  cursor: pointer;
+}
+
+/* U字母 */
+.letter-u {
+  color: #FFFFFF;
+  -webkit-text-fill-color: #FFFFFF;
+  font-weight: 900;
+  animation: uGlow 2s ease-in-out infinite;
+}
+
+@keyframes uGlow {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.6)); }
+  50% { filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.9)); }
+}
+
+.letter-u.tilting { animation: tiltU 1s ease-out forwards; }
+@keyframes tiltU {
+  100% { transform: rotate(90deg) translateY(40px) translateX(100px); }
+}
+
+/* 分数显示 */
+.score-display {
+  position: fixed;
+  top: 30px;
+  right: 30px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(15px);
+  padding: 15px 25px;
+  border-radius: 15px;
+  z-index: 999;
+  text-align: center;
+}
+
+.music-toggle {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.3s ease;
+}
+
+.music-toggle.muted { background: rgba(255, 59, 63, 0.3); }
+.score-value { font-size: 32px; font-weight: 800; color: #fff; }
+.ball-count { font-size: 13px; color: rgba(255, 255, 255, 0.8); }
+
+/* 语言切换 */
+.language-switcher {
+  position: absolute;
+  bottom: calc(14% + 200px);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  z-index: 998;
+}
+
+.lang-btn {
+  min-width: 90px;
+  height: 45px;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(20px);
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-radius: 12px;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.lang-btn:hover { background: rgba(255, 255, 255, 0.35); }
+.lang-btn.active { background: rgba(255, 255, 255, 0.5); }
+
+/* 按钮 */
+#buttons {
+  position: absolute;
+  bottom: 14%;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  z-index: 2;
+  flex-wrap: wrap;
+  padding: 0 20px;
+}
+
+.glass-btn {
+  min-width: 140px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.glass-btn:active { transform: translateY(2px); }
+.glass-btn.satisfied { animation: giftPulse 0.5s ease-in-out 3; }
+@keyframes giftPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+/* 精灵 */
+.light-dot {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.95);
+  cursor: pointer;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  top: -100px;
+  transition: opacity 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.light-dot.visible { opacity: 1; }
+.light-dot.scared { animation: shake 0.3s ease; }
+@keyframes shake {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg); }
+}
+
+.face { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.25); border-radius: 50%; }
+.eyes { display: flex; width: 100%; }
+.eye { position: relative; width: 26px; height: 34px; }
+.eye-white { width: 100%; height: 100%; background: #fff; border-radius: 50% / 60%; }
+.pupil { width: 12px; height: 12px; background: #000; border-radius: 50%; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.eye.closed .eye-white { height: 2px; }
+.mouth { width: 12px; height: 6px; border-bottom: 2px solid #000; border-radius: 0 0 6px 6px; }
+
+/* 球 */
+.glass-ball {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9), rgba(200, 200, 255, 0.4));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.glass-ball.gold { background: radial-gradient(circle, #FFD700, #FFA500); animation: goldGlow 1s ease infinite; }
+.glass-ball.silver { background: radial-gradient(circle, #E8E8E8, #C0C0C0); }
+@keyframes goldGlow {
+  0%, 100% { box-shadow: 0 8px 24px rgba(255, 215, 0, 0.6); }
+  50% { box-shadow: 0 8px 24px rgba(255, 215, 0, 0.9), 0 0 40px var(--gold-color); }
+}
+
+/* 面板 */
+.panel-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  z-index: 998;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.8s ease;
+}
+
+.panel-overlay.show { opacity: 1; visibility: visible; }
+
+.function-detail-panel {
+  position: fixed;
+  top: 0;
+  left: -100%;
+  width: 85%;
+  max-width: 600px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(100px) saturate(300%) brightness(1.15);
+  border-right: 8px solid rgba(255, 255, 255, 0.7);
+  z-index: 999;
+  transition: left 1.5s cubic-bezier(0.16, 0.84, 0.44, 1);
+  overflow-y: auto;
+}
+
+.function-detail-panel.show { left: 0; }
+
+.panel-header {
+  background: rgba(255, 255, 255, 0.35);
+  padding: 30px;
+  border-bottom: 3px solid rgba(255, 255, 255, 0.5);
+  display: flex;
+  justify-content: space-between;
+}
+
+.panel-title { font-size: 38px; font-weight: 900; color: #fff; }
+.panel-close-btn {
+  width: 54px;
+  height: 54px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 32px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel-content { padding: 40px 30px 120px; }
+.panel-footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.25);
+  padding: 20px 30px;
+  z-index: 1000;
+  display: none;
+}
+
+.confirm-booking-btn {
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(135deg, var(--success-color), #228B22);
+  border: none;
+  border-radius: 16px;
+  color: #fff;
+  font-size: 20px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+/* 可展开区域 */
+.expandable-section {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 22px;
+  margin-bottom: 28px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  overflow: hidden;
+}
+
+.section-header { padding: 25px 32px; cursor: pointer; display: flex; justify-content: space-between; }
+.section-title { font-size: 26px; font-weight: 800; color: #fff; }
+.expand-icon { font-size: 24px; transition: transform 0.3s ease; }
+.expand-icon.expanded { transform: rotate(180deg); }
+.section-details { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; padding: 0 32px; }
+.section-details.expanded { max-height: 2000px; padding: 0 32px 25px; }
+
+.content-section { background: rgba(255, 255, 255, 0.18); border-radius: 22px; padding: 32px; margin-bottom: 28px; }
+.feature-list { list-style: none; }
+.feature-item { background: rgba(255, 255, 255, 0.25); padding: 17px 22px; margin-bottom: 14px; border-radius: 14px; color: #fff; }
+
+/* 时间选择器 */
+.time-picker-container { display: flex; gap: 10px; margin: 20px 0; }
+.picker-column { flex: 1; max-width: 120px; }
+.picker-label { font-size: 14px; color: #fff; text-align: center; margin-bottom: 8px; }
+.picker-wheel { height: 150px; overflow-y: auto; background: rgba(255, 255, 255, 0.1); border-radius: 12px; scroll-snap-type: y mandatory; }
+.picker-option { height: 50px; display: flex; align-items: center; justify-content: center; color: rgba(255, 255, 255, 0.6); font-size: 18px; cursor: pointer; scroll-snap-align: center; }
+.picker-option.selected { color: var(--gold-color); font-size: 22px; background: rgba(255, 255, 255, 0.15); }
+
+/* 选择器 */
+.staff-selector { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin: 20px 0; }
+.staff-option, .detail-item { padding: 15px; background: rgba(255, 255, 255, 0.15); border-radius: 12px; border: 2px solid rgba(255, 255, 255, 0.3); color: #fff; cursor: pointer; }
+.detail-item { display: flex; justify-content: space-between; }
+.staff-option.selected, .detail-item.selected { background: rgba(255, 215, 0, 0.3); border-color: var(--gold-color); color: var(--gold-color); }
+.detail-price { font-weight: 800; color: var(--gold-color); font-size: 18px; }
+
+/* 提示框 */
+.booking-alert {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 20px;
+  z-index: 1001;
+  max-width: 350px;
+  opacity: 0;
+  transition: all 0.4s ease;
+}
+
+.booking-alert.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+.booking-alert-title { font-size: 24px; font-weight: 800; margin-bottom: 15px; }
+.booking-alert-title.error { color: var(--accent-color); }
+.booking-alert-title.success { color: var(--success-color); }
+.booking-alert-message { font-size: 16px; color: #333; margin-bottom: 20px; white-space: pre-line; }
+.booking-alert-btn { padding: 12px 30px; background: var(--primary-gradient); color: white; border: none; border-radius: 10px; cursor: pointer; }
+
+/* 其他 */
+#promoCard {
+  position: absolute;
+  width: 90%;
+  max-width: 400px;
+  height: 250px;
+  background: linear-gradient(135deg, var(--accent-color), #FF6B6F);
+  border-radius: 24px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.8s ease;
+}
+
+#promoCard.show { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+.promo-text { font-size: 32px; font-weight: 700; }
+.speech-bubble { position: absolute; background: rgba(255, 255, 255, 0.95); border-radius: 20px; padding: 12px 20px; color: var(--accent-color); z-index: 4; opacity: 0; pointer-events: none; }
+.speech-bubble.show { opacity: 1; }
+#fireworkCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 9; pointer-events: none; }
+
+/* 响应式 */
+@media (max-width: 400px) {
+  #logo { top: 60px; font-size: clamp(70px, 10vw, 90px); }
+  .glass-btn { min-width: 110px; height: 50px; }
+}
