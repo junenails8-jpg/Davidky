@@ -21,6 +21,9 @@ const GameFlow = {
     if (State.hasStarted) return;
     State.hasStarted = true;
     
+    // 请求手机倾斜权限（必须在用户交互时请求）
+    Physics.requestMotionPermission();
+    
     // 初始化音效
     AudioManager.init();
     AudioManager.playBGM();

@@ -12,11 +12,47 @@ const Physics = {
   tiltX: 0,
   tiltY: 0,
   groundY: 0,
+  permissionGranted: false,
   
   init() {
     this.groundY = window.innerHeight - CONFIG.GROUND_Y_OFFSET;
     
-    // 手机陀螺仪
+    // 不在这里请求权限，等用户交互时再请求
+    
+    window.addEventListener('resize', () => {
+      this.groundY = window.innerHeight - CONFIG.GROUND_Y_OFFSET;
+    });
+  },
+  
+  // 请求陀螺仪权限
+  async requestMotionPermission() {
+    // iOS 13+ 需要明确请求权限
+    if (typeof DeviceOrientationEvent !== 'undefined' && 
+        typeof DeviceOrientationEvent.requestPermission === 'function') {
+      try {
+        const permission = await DeviceOrientationEvent.requestPermission();
+        if (permission === 'granted') {
+          this.setupMotionListener();
+          this.permissionGranted = true;
+          console.log('✅ 陀螺仪权限已授予');
+        } else {
+          console.log('❌ 陀螺仪权限被拒绝');
+          this.showPermissionHint();
+        }
+      } catch (error) {
+        console.log('⚠️ 请求权限出错:', error);
+        // 如果出错，尝试直接监听（旧版本设备）
+        this.setupMotionListener();
+      }
+    } else {
+      // Android或旧版iOS，直接监听
+      this.setupMotionListener();
+      this.permissionGranted = true;
+    }
+  },
+  
+  // 设置陀螺仪监听
+  setupMotionListener() {
     if (window.DeviceOrientationEvent) {
       window.addEventListener('deviceorientation', (e) => {
         if (e.gamma !== null) {
@@ -25,10 +61,31 @@ const Physics = {
         }
       });
     }
-    
-    window.addEventListener('resize', () => {
-      this.groundY = window.innerHeight - CONFIG.GROUND_Y_OFFSET;
-    });
+  },
+  
+  // 显示权限提示
+  showPermissionHint() {
+    const hint = document.createElement('div');
+    hint.id = 'motionPermissionHint';
+    hint.innerHTML = `
+      <div style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+                  background: rgba(0,0,0,0.9); color: white; padding: 30px; 
+                  border-radius: 20px; z-index: 10000; text-align: center; max-width: 80%;">
+        <h3 style="margin-bottom: 15px;">📱 需要手机倾斜权限</h3>
+        <p style="margin-bottom: 20px;">点击下面的按钮允许使用陀螺仪<br>让球跟着手机倾斜滚动</p>
+        <button onclick="Physics.requestMotionPermission(); this.parentElement.parentElement.remove();" 
+                style="padding: 15px 40px; font-size: 18px; background: #32CD32; 
+                       color: white; border: none; border-radius: 10px; cursor: pointer;">
+          允许倾斜控制
+        </button>
+        <button onclick="this.parentElement.parentElement.remove();" 
+                style="padding: 15px 40px; font-size: 18px; background: #666; 
+                       color: white; border: none; border-radius: 10px; cursor: pointer; margin-left: 10px;">
+          稍后
+        </button>
+      </div>
+    `;
+    document.body.appendChild(hint);
   },
   
   // 创建新球
