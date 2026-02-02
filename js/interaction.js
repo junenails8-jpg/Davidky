@@ -168,6 +168,42 @@ const UI = {
     document.querySelector('.booking-alert-btn').addEventListener('click', () => {
       document.getElementById('bookingAlert').classList.remove('show');
     });
+    
+    // 启动时钟更新
+    this.updateDateTime();
+    setInterval(() => this.updateDateTime(), 1000);
+  },
+  
+  // 更新日期和时间显示
+  updateDateTime() {
+    const now = new Date();
+    const dateEl = document.getElementById('panelDate');
+    const timeEl = document.getElementById('panelTime');
+    
+    if (dateEl && timeEl) {
+      // 日期格式
+      const year = now.getFullYear();
+      const month = now.getMonth() + 1;
+      const day = now.getDate();
+      const weekdays = ['日', '一', '二', '三', '四', '五', '六'];
+      const weekday = weekdays[now.getDay()];
+      
+      if (Lang.current === 'zh') {
+        dateEl.textContent = `${year}年${month}月${day}日 星期${weekday}`;
+      } else if (Lang.current === 'en') {
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        dateEl.textContent = `${months[month-1]} ${day}, ${year}`;
+      } else {
+        const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+        dateEl.textContent = `${day} ${months[month-1]}, ${year}`;
+      }
+      
+      // 时间格式
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      timeEl.textContent = `${hours}:${minutes}:${seconds}`;
+    }
   },
   
   openPanel(type) {
@@ -180,8 +216,12 @@ const UI = {
       title.textContent = t.bookingTitle;
       footer.style.display = 'block';
       content.innerHTML = Booking.renderPanel();
+    } else if (type === 'services') {
+      title.textContent = '💅 ' + t.buttonServices;
+      footer.style.display = 'none';
+      content.innerHTML = this.renderServicesPanel();
     } else {
-      title.textContent = type === 'services' ? '💅 ' + t.buttonServices : '👑 ' + t.buttonMember;
+      title.textContent = '👑 ' + t.buttonMember;
       footer.style.display = 'none';
       content.innerHTML = '<div class="content-section"><div class="section-title">功能开发中...</div></div>';
     }
@@ -190,10 +230,47 @@ const UI = {
     this.panel.classList.add('show');
   },
   
+  renderServicesPanel() {
+    const categories = [
+      { key: 'manicure', icon: '💅', title: '美甲服务' },
+      { key: 'pedicure', icon: '🦶', title: '足部护理' },
+      { key: 'enhancement', icon: '✨', title: '增强服务' }
+    ];
+    
+    return categories.map(cat => {
+      const services = SERVICES[cat.key] || [];
+      return `
+        <div class="content-section">
+          <div class="section-title">${cat.icon} ${cat.title}</div>
+          <div class="service-list">
+            ${services.map(service => {
+              const name = Lang.getServiceName(service);
+              return `
+                <div class="service-item">
+                  <div class="service-name">${name}</div>
+                  <div class="service-price">${service.price}</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </div>
+      `;
+    }).join('');
+  },
+  
   closePanel() {
-    this.panel.classList.remove('show');
+    // 添加关闭动画类
+    this.panel.classList.add('closing');
     this.overlay.classList.remove('show');
-    document.getElementById('panelFooter').style.display = 'none';
+    
+    // 🔊 播放关闭音效
+    AudioManager.play('panelClose');
+    
+    // 等动画完成后移除show类
+    setTimeout(() => {
+      this.panel.classList.remove('show', 'closing');
+      document.getElementById('panelFooter').style.display = 'none';
+    }, 800); // 0.8秒后移除（与动画时长一致）
   },
   
   showAlert(type, message) {
@@ -220,7 +297,9 @@ const Booking = {
     day: 1,
     time: null,
     staff: { id: 0, name: 'any' },
-    service: null
+    service: null,
+    customerName: '',
+    customerPhone: ''
   },
   
   renderPanel() {
@@ -253,6 +332,39 @@ const Booking = {
         </div>
         <div class="section-details" id="details-2">
           ${this.renderStaff()}
+        </div>
+      </div>
+      
+      <div class="expandable-section">
+        <div class="section-header" onclick="toggleSection(3)">
+          <div class="section-title">📞 ${t.customerInfo || '您的信息'}</div>
+          <div class="expand-icon" id="icon-3">▼</div>
+        </div>
+        <div class="section-details" id="details-3">
+          <div class="customer-info-form">
+            <div class="form-group">
+              <label class="form-label">${t.customerName || '姓名'} <span style="color: #FF5B5F;">*</span></label>
+              <input 
+                type="text" 
+                id="customerName" 
+                class="form-input" 
+                placeholder="${t.enterName || '请输入您的姓名'}"
+                value="${this.selected.customerName || ''}"
+                oninput="Booking.updateCustomerInfo('name', this.value)"
+              >
+            </div>
+            <div class="form-group">
+              <label class="form-label">${t.customerPhone || '电话号码'} <span style="color: #FF5B5F;">*</span></label>
+              <input 
+                type="tel" 
+                id="customerPhone" 
+                class="form-input" 
+                placeholder="${t.enterPhone || '请输入您的电话号码'}"
+                value="${this.selected.customerPhone || ''}"
+                oninput="Booking.updateCustomerInfo('phone', this.value)"
+              >
+            </div>
+          </div>
         </div>
       </div>
       
@@ -342,8 +454,35 @@ const Booking = {
     `;
   },
   
+  updateCustomerInfo(type, value) {
+    if (type === 'name') {
+      this.selected.customerName = value;
+    } else if (type === 'phone') {
+      this.selected.customerPhone = value;
+    }
+  },
+  
   confirm() {
     const t = TEXTS[Lang.current];
+    
+    // 验证姓名
+    if (!this.selected.customerName || this.selected.customerName.trim() === '') {
+      UI.showAlert('error', t.pleaseEnterName || '请输入您的姓名');
+      return;
+    }
+    
+    // 验证电话
+    if (!this.selected.customerPhone || this.selected.customerPhone.trim() === '') {
+      UI.showAlert('error', t.pleaseEnterPhone || '请输入您的电话号码');
+      return;
+    }
+    
+    // 简单的电话号码格式验证
+    const phoneRegex = /^[\d\s\-\+\(\)]{7,20}$/;
+    if (!phoneRegex.test(this.selected.customerPhone)) {
+      UI.showAlert('error', t.invalidPhone || '请输入有效的电话号码');
+      return;
+    }
     
     if (!this.selected.time) {
       UI.showAlert('error', t.selectTimeFirst);
@@ -360,7 +499,7 @@ const Booking = {
       this.bookings.push(key);
     }
     
-    let message = `${this.selected.year}年${this.selected.month}${t.monthSuffix}${this.selected.day}${t.daySuffix} ${this.selected.time}`;
+    let message = `${this.selected.customerName} ${this.selected.customerPhone}\n${this.selected.year}年${this.selected.month}${t.monthSuffix}${this.selected.day}${t.daySuffix} ${this.selected.time}`;
     if (this.selected.staff.id !== 0) message += `\n${this.selected.staff.name}`;
     if (this.selected.service) message += `\n${this.selected.service.name} ${this.selected.service.price}`;
     
@@ -372,6 +511,7 @@ const Booking = {
       UI.closePanel();
       this.selected.time = null;
       this.selected.service = null;
+      // 保留姓名和电话，方便下次预约
     }, 3000);
   }
 };

@@ -24,7 +24,8 @@ const ASSETS = {
     spriteAppear: 'sounds/sprite-appear.mp3', // 精灵出现
     spriteEscape: 'sounds/sprite-escape.mp3', // 精灵逃跑
     spriteHit: 'sounds/sprite-hit.mp3',       // 点击精灵
-    panelSlide: 'sounds/panel-slide.mp3',     // 面板滑动
+    panelSlide: 'sounds/panel-slide.mp3',     // 面板滑出
+    panelClose: 'sounds/panel-close.mp3',     // 🔊 面板关闭（新增）
     success: 'sounds/success.mp3',            // 成功
     promoAppear: 'sounds/promo-appear.mp3',   // 促销卡片
     logoClick: 'sounds/logo-click.mp3'        // Logo点击
