@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>NEW PROUD NAILS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <link rel="stylesheet" href="css/style.css?v=20260203">
+</head>
+<body>
+  <!-- 分数显示 -->
+  <div class="score-display">
+    <button class="music-toggle" id="musicToggle"><span id="musicIcon">🔊</span></button>
+    <div class="score-label">Score</div>
+    <div class="score-value" id="scoreValue">0</div>
+    <div class="ball-count" id="ballCount">(0/20)</div>
+  </div>
+
+  <!-- Logo -->
+  <div id="logo">NEW PRO<span class="letter-u" id="letterU">U</span>D NAILS</div>
+
+  <!-- 精灵 -->
+  <div class="light-dot">
+    <div class="face">
+      <div class="eyes">
+        <div class="eye"><div class="eye-white"></div><div class="pupil"></div></div>
+        <div class="eye"><div class="eye-white"></div><div class="pupil"></div></div>
+      </div>
+      <div class="mouth"></div>
+    </div>
+  </div>
+
+  <div class="speech-bubble">哈喽！</div>
+
+  <!-- 语言切换 -->
+  <div class="language-switcher">
+    <button class="lang-btn active" data-lang="zh">中文</button>
+    <button class="lang-btn" data-lang="en">English</button>
+    <button class="lang-btn" data-lang="es">Español</button>
+  </div>
+
+  <!-- 按钮 -->
+  <div id="buttons">
+    <div class="glass-btn" data-action="book"><span id="btnBook">预约</span></div>
+    <div class="glass-btn" id="giftBtn"><span id="btnGiftFull">GIFT</span></div>
+    <div class="glass-btn" data-action="services"><span id="btnServices">服务</span></div>
+    <div class="glass-btn" data-action="member"><span id="btnMember">会员</span></div>
+  </div>
+
+  <div id="promoCard">
+    <div class="promo-text" id="promoText">🎉 恭喜！</div>
+    <div class="promo-subtitle" id="promoSubtitle">您获得了专属优惠</div>
+  </div>
+
+  <canvas id="fireworkCanvas"></canvas>
+
+  <!-- 面板 -->
+  <div class="panel-overlay" id="panelOverlay"></div>
+  <div class="function-detail-panel" id="functionPanel">
+    <div class="panel-header">
+      <div class="panel-header-top">
+        <div class="panel-datetime">
+          <div class="panel-date" id="panelDate">2026年2月2日</div>
+          <div class="panel-time" id="panelTime">00:00:00</div>
+        </div>
+        <div class="panel-close-btn">×</div>
+      </div>
+      <div class="panel-title" id="panelTitle">预约</div>
+    </div>
+    <div class="panel-content" id="panelContentArea"></div>
+    <div class="panel-footer" id="panelFooter">
+      <button class="confirm-booking-btn" id="confirmBookingBtn">确认预约</button>
+    </div>
+  </div>
+
+  <div class="booking-alert" id="bookingAlert">
+    <div class="booking-alert-title" id="alertTitle">提示</div>
+    <div class="booking-alert-message" id="alertMessage">消息内容</div>
+    <button class="booking-alert-btn">确定</button>
+  </div>
+
+  <!-- ========== Supabase SDK (从CDN加载) ========== -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- ========== 原有JS文件 ========== -->
+  <script src="config-sound.js?v=20260201"></script>
+  <script src="js/config.js?v=20260201"></script>
+  <script src="js/physics.js?v=20260201"></script>
+  <script src="js/animation.js?v=20260201"></script>
+  <script src="js/interaction.js?v=20260201"></script>
+  <script src="js/main.js?v=20260201"></script>
+
+  <!-- ========== Supabase 集成文件 (新增) ========== -->
+  <script src="js/supabase-client.js?v=20260210"></script>
+  <script src="js/email-notification.js?v=20260210"></script>
+  <script src="js/push-notification.js?v=20260210"></script>
+  <script src="js/booking-integration.js?v=20260210"></script>
+
+</body>
+</html>

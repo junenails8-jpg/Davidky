@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NEW PROUD NAILS - 管理后台</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* 登录页面 */
+    .login-container {
+      max-width: 400px;
+      margin: 100px auto;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .login-title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 30px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .login-input {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    .login-input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .login-btn:active {
+      transform: translateY(0);
+    }
+
+    /* 主界面 */
+    .admin-container {
+      display: none;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .admin-container.active {
+      display: block;
+    }
+
+    .admin-header {
+      background: white;
+      padding: 20px 30px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .admin-title {
+      font-size: 24px;
+      font-weight: bold;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logout-btn {
+      padding: 10px 20px;
+      background: #f44336;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .logout-btn:hover {
+      background: #d32f2f;
+    }
+
+    /* 统计卡片 */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .stat-number {
+      font-size: 36px;
+      font-weight: bold;
+      color: #667eea;
+      margin-bottom: 10px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: #666;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* 筛选栏 */
+    .filter-bar {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .filter-btn {
+      padding: 10px 20px;
+      border: 2px solid #e0e0e0;
+      background: white;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.3s;
+    }
+
+    .filter-btn:hover {
+      border-color: #667eea;
+      color: #667eea;
+    }
+
+    .filter-btn.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-color: transparent;
+    }
+
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 10px 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 14px;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: #667eea;
+    }
+
+    /* 预约列表 */
+    .bookings-container {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    .bookings-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .bookings-table th {
+      background: #f5f5f5;
+      padding: 15px;
+      text-align: left;
+      font-weight: 600;
+      color: #333;
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .bookings-table td {
+      padding: 15px;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .bookings-table tr:hover {
+      background: #f9f9f9;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .status-pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .status-confirmed {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+
+    .status-completed {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .status-cancelled {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .action-btn {
+      padding: 6px 12px;
+      margin: 0 3px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.3s;
+    }
+
+    .btn-confirm {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .btn-complete {
+      background: #2196F3;
+      color: white;
+    }
+
+    .btn-cancel {
+      background: #f44336;
+      color: white;
+    }
+
+    .btn-delete {
+      background: #9e9e9e;
+      color: white;
+    }
+
+    .action-btn:hover {
+      opacity: 0.8;
+    }
+
+    .no-data {
+      text-align: center;
+      padding: 50px;
+      color: #999;
+      font-size: 16px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 50px;
+      color: #667eea;
+      font-size: 18px;
+    }
+
+    /* 手机适配 */
+    @media (max-width: 768px) {
+      .filter-group {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filter-btn,
+      .search-input {
+        width: 100%;
+      }
+
+      .bookings-table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      .admin-header {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 刷新按钮 */
+    .refresh-btn {
+      padding: 10px 20px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-left: 10px;
+    }
+
+    .refresh-btn:hover {
+      background: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 登录页面 -->
+  <div class="login-container" id="loginContainer">
+    <div class="login-title">NEW PROUD NAILS</div>
+    <div style="text-align: center; margin-bottom: 30px; color: #666;">管理员登录</div>
+    <input type="password" id="adminPassword" class="login-input" placeholder="请输入管理员密码" autofocus>
+    <button class="login-btn" onclick="login()">登录</button>
+    <div id="loginError" style="color: #f44336; text-align: center; margin-top: 15px; font-size: 14px;"></div>
+  </div>
+
+  <!-- 管理后台 -->
+  <div class="admin-container" id="adminContainer">
+    <!-- 头部 -->
+    <div class="admin-header">
+      <div class="admin-title">💅 预约管理系统</div>
+      <div>
+        <button class="refresh-btn" onclick="loadBookings()">🔄 刷新</button>
+        <button class="logout-btn" onclick="logout()">退出登录</button>
+      </div>
+    </div>
+
+    <!-- 统计卡片 -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number" id="statTotal">0</div>
+        <div class="stat-label">总预约数</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="statToday">0</div>
+        <div class="stat-label">今日预约</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="statPending">0</div>
+        <div class="stat-label">待确认</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="statConfirmed">0</div>
+        <div class="stat-label">已确认</div>
+      </div>
+    </div>
+
+    <!-- 筛选栏 -->
+    <div class="filter-bar">
+      <div class="filter-group">
+        <button class="filter-btn active" data-filter="all" onclick="filterByStatus('all')">全部</button>
+        <button class="filter-btn" data-filter="pending" onclick="filterByStatus('pending')">待确认</button>
+        <button class="filter-btn" data-filter="confirmed" onclick="filterByStatus('confirmed')">已确认</button>
+        <button class="filter-btn" data-filter="completed" onclick="filterByStatus('completed')">已完成</button>
+        <button class="filter-btn" data-filter="cancelled" onclick="filterByStatus('cancelled')">已取消</button>
+        <input type="search" class="search-input" id="searchInput" placeholder="🔍 搜索姓名或电话..." oninput="searchBookings()">
+      </div>
+    </div>
+
+    <!-- 预约列表 -->
+    <div class="bookings-container">
+      <div id="loadingIndicator" class="loading">正在加载预约数据...</div>
+      <table class="bookings-table" id="bookingsTable" style="display: none;">
+        <thead>
+          <tr>
+            <th>预约时间</th>
+            <th>客户姓名</th>
+            <th>联系电话</th>
+            <th>服务项目</th>
+            <th>技师</th>
+            <th>状态</th>
+            <th>备注</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="bookingsBody">
+        </tbody>
+      </table>
+      <div id="noDataMessage" class="no-data" style="display: none;">暂无预约数据</div>
+    </div>
+  </div>
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    // ==================== 配置 ====================
+    const ADMIN_PASSWORD = 'david5678'; // 请修改为您的管理员密码！
+    const SUPABASE_URL = 'https://rlkzcohocatggszmlewj.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJsa3pjb2hvY2F0Z2dzem1sZXdqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAyMzM5OTIsImV4cCI6MjA4NTgwOTk5Mn0._toXOopqDriCFc5HXoP5pCKXDi4G7JI7KgJvrQBOj0I';
+
+    // 初始化 Supabase
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // 全局变量
+    let allBookings = [];
+    let currentFilter = 'all';
+
+    // ==================== 登录功能 ====================
+    function login() {
+      const password = document.getElementById('adminPassword').value;
+      const errorEl = document.getElementById('loginError');
+
+      if (password === ADMIN_PASSWORD) {
+        sessionStorage.setItem('adminLoggedIn', 'true');
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('adminContainer').classList.add('active');
+        loadBookings();
+      } else {
+        errorEl.textContent = '密码错误，请重试';
+        document.getElementById('adminPassword').value = '';
+      }
+    }
+
+    function logout() {
+      sessionStorage.removeItem('adminLoggedIn');
+      document.getElementById('loginContainer').style.display = 'block';
+      document.getElementById('adminContainer').classList.remove('active');
+      document.getElementById('adminPassword').value = '';
+    }
+
+    // 检查登录状态
+    if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+      document.getElementById('loginContainer').style.display = 'none';
+      document.getElementById('adminContainer').classList.add('active');
+      loadBookings();
+    }
+
+    // 回车登录
+    document.getElementById('adminPassword').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') login();
+    });
+
+    // ==================== 加载预约数据 ====================
+    async function loadBookings() {
+      const loading = document.getElementById('loadingIndicator');
+      const table = document.getElementById('bookingsTable');
+      const noData = document.getElementById('noDataMessage');
+
+      loading.style.display = 'block';
+      table.style.display = 'none';
+      noData.style.display = 'none';
+
+      try {
+        const { data, error } = await supabase
+          .from('bookings')
+          .select('*')
+          .order('booking_time', { ascending: false });
+
+        if (error) throw error;
+
+        allBookings = data || [];
+        updateStats();
+        renderBookings(allBookings);
+
+        loading.style.display = 'none';
+        if (allBookings.length > 0) {
+          table.style.display = 'table';
+        } else {
+          noData.style.display = 'block';
+        }
+      } catch (error) {
+        console.error('加载失败:', error);
+        loading.textContent = '加载失败，请刷新重试';
+      }
+    }
+
+    // ==================== 渲染预约列表 ====================
+    function renderBookings(bookings) {
+      const tbody = document.getElementById('bookingsBody');
+      tbody.innerHTML = '';
+
+      bookings.forEach(booking => {
+        const tr = document.createElement('tr');
+        const bookingDate = new Date(booking.booking_time);
+        
+        tr.innerHTML = `
+          <td>${formatDateTime(bookingDate)}</td>
+          <td><strong>${booking.customer_name}</strong></td>
+          <td><a href="tel:${booking.customer_phone}">${booking.customer_phone}</a></td>
+          <td>${booking.service_name}</td>
+          <td>${booking.staff_name}</td>
+          <td><span class="status-badge status-${booking.status}">${getStatusText(booking.status)}</span></td>
+          <td>${booking.notes || '-'}</td>
+          <td>
+            ${booking.status === 'pending' ? `<button class="action-btn btn-confirm" onclick="updateStatus('${booking.id}', 'confirmed')">确认</button>` : ''}
+            ${booking.status === 'confirmed' ? `<button class="action-btn btn-complete" onclick="updateStatus('${booking.id}', 'completed')">完成</button>` : ''}
+            ${booking.status !== 'cancelled' ? `<button class="action-btn btn-cancel" onclick="updateStatus('${booking.id}', 'cancelled')">取消</button>` : ''}
+            <button class="action-btn btn-delete" onclick="deleteBooking('${booking.id}')">删除</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // ==================== 更新统计 ====================
+    function updateStats() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+
+      const todayBookings = allBookings.filter(b => {
+        const bookingDate = new Date(b.booking_time);
+        bookingDate.setHours(0, 0, 0, 0);
+        return bookingDate.getTime() === today.getTime();
+      });
+
+      const pendingCount = allBookings.filter(b => b.status === 'pending').length;
+      const confirmedCount = allBookings.filter(b => b.status === 'confirmed').length;
+
+      document.getElementById('statTotal').textContent = allBookings.length;
+      document.getElementById('statToday').textContent = todayBookings.length;
+      document.getElementById('statPending').textContent = pendingCount;
+      document.getElementById('statConfirmed').textContent = confirmedCount;
+    }
+
+    // ==================== 筛选功能 ====================
+    function filterByStatus(status) {
+      currentFilter = status;
+      
+      // 更新按钮状态
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.filter === status) {
+          btn.classList.add('active');
+        }
+      });
+
+      // 筛选数据
+      let filtered = allBookings;
+      if (status !== 'all') {
+        filtered = allBookings.filter(b => b.status === status);
+      }
+
+      renderBookings(filtered);
+    }
+
+    // ==================== 搜索功能 ====================
+    function searchBookings() {
+      const keyword = document.getElementById('searchInput').value.toLowerCase();
+      
+      let filtered = allBookings;
+      if (currentFilter !== 'all') {
+        filtered = filtered.filter(b => b.status === currentFilter);
+      }
+
+      if (keyword) {
+        filtered = filtered.filter(b => 
+          b.customer_name.toLowerCase().includes(keyword) ||
+          b.customer_phone.includes(keyword)
+        );
+      }
+
+      renderBookings(filtered);
+    }
+
+    // ==================== 更新状态 ====================
+    async function updateStatus(bookingId, newStatus) {
+      if (!confirm(`确定要将预约状态更改为"${getStatusText(newStatus)}"吗？`)) return;
+
+      try {
+        const { error } = await supabase
+          .from('bookings')
+          .update({ status: newStatus })
+          .eq('id', bookingId);
+
+        if (error) throw error;
+
+        alert('状态更新成功！');
+        loadBookings();
+      } catch (error) {
+        console.error('更新失败:', error);
+        alert('更新失败，请重试');
+      }
+    }
+
+    // ==================== 删除预约 ====================
+    async function deleteBooking(bookingId) {
+      if (!confirm('确定要删除这条预约吗？此操作不可恢复！')) return;
+
+      try {
+        const { error } = await supabase
+          .from('bookings')
+          .delete()
+          .eq('id', bookingId);
+
+        if (error) throw error;
+
+        alert('删除成功！');
+        loadBookings();
+      } catch (error) {
+        console.error('删除失败:', error);
+        alert('删除失败，请重试');
+      }
+    }
+
+    // ==================== 辅助函数 ====================
+    function formatDateTime(date) {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      
+      return `${year}-${month}-${day} ${hours}:${minutes}`;
+    }
+
+    function getStatusText(status) {
+      const statusMap = {
+        'pending': '待确认',
+        'confirmed': '已确认',
+        'completed': '已完成',
+        'cancelled': '已取消'
+      };
+      return statusMap[status] || status;
+    }
+  </script>
+
+</body>
+</html>
